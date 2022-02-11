@@ -157,7 +157,7 @@ class MailMakeCommand extends GeneratorCommand
 
             ['markdown', 'm', InputOption::VALUE_OPTIONAL, 'Create a new Markdown template for the mailable', false],
 
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

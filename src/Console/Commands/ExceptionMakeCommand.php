@@ -88,7 +88,7 @@ class ExceptionMakeCommand extends GeneratorCommand
         return [
             ['render', null, InputOption::VALUE_NONE, 'Create the exception with an empty render method'],
             ['report', null, InputOption::VALUE_NONE, 'Create the exception with an empty report method'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

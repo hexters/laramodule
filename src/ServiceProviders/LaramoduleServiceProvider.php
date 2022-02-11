@@ -11,6 +11,8 @@ use Hexters\Laramodule\Console\Commands\CastMakeCommand;
 use Hexters\Laramodule\Console\Commands\ChannelMakeCommand;
 use Hexters\Laramodule\Console\Commands\ComponentMakeCommand;
 use Hexters\Laramodule\Console\Commands\ConsoleMakeCommand;
+use Hexters\Laramodule\Console\Commands\Database\Factories\FactoryMakeCommand;
+use Hexters\Laramodule\Console\Commands\Database\Seeds\SeederMakeCommand;
 use Hexters\Laramodule\Console\Commands\ExceptionMakeCommand;
 use Hexters\Laramodule\Console\Commands\JobMakeCommand;
 use Hexters\Laramodule\Console\Commands\ListenerMakeCommand;
@@ -80,6 +82,9 @@ class LaramoduleServiceProvider extends ServiceProvider
                 RuleMakeCommand::class,
                 ScopeMakeCommand::class,
                 TestMakeCommand::class,
+
+                FactoryMakeCommand::class,
+                SeederMakeCommand::class
             ]);
         }
     }

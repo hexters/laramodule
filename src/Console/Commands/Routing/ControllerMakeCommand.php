@@ -284,7 +284,7 @@ class ControllerMakeCommand extends GeneratorCommand
             ['parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class.'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.'],
             ['requests', 'R', InputOption::VALUE_NONE, 'Generate FormRequest classes for store and update.'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

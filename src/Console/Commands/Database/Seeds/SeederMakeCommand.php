@@ -1,11 +1,12 @@
 <?php
 
-namespace Hexters\Laramodule\Console\Commands;
+namespace Hexters\Laramodule\Console\Commands\Database\Seeds;
 
+use Hexters\Laramodule\Console\Commands\BaseCommandTrait;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class ChannelMakeCommand extends GeneratorCommand
+class SeederMakeCommand extends GeneratorCommand
 {
 
     use BaseCommandTrait;
@@ -15,7 +16,7 @@ class ChannelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'module:make-channel';
+    protected $name = 'module:make-seeder';
 
     /**
      * The name of the console command.
@@ -24,21 +25,21 @@ class ChannelMakeCommand extends GeneratorCommand
      *
      * @var string|null
      */
-    protected static $defaultName = 'module:make-channel';
+    protected static $defaultName = 'module:make-seeder';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new channel class in Module';
+    protected $description = 'Create a new seeder class in module';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Channel';
+    protected $type = 'Seeder';
 
     /**
      * Build the class with the given name.
@@ -48,11 +49,29 @@ class ChannelMakeCommand extends GeneratorCommand
      */
     protected function buildClass($name)
     {
+
+        $namespace = $this->overiteNamespace('\\Database\\Seeders');
+
+        $replace = [
+            '{{ seederNamespace }}' => $namespace,
+            '{{seederNamespace}}' => $namespace,
+        ];
+
         return str_replace(
-            ['DummyUser', '{{ userModel }}'],
-            class_basename($this->userProviderModel()),
+            array_keys($replace),
+            array_values($replace),
             parent::buildClass($name)
         );
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        parent::handle();
     }
 
     /**
@@ -62,9 +81,22 @@ class ChannelMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/channel.stub';
+        return $this->resolveStubPath('/stubs/seeder.stub');
     }
 
+    /**
+     * Resolve the fully-qualified path to the stub.
+     *
+     * @param  string  $stub
+     * @return string
+     */
+    protected function resolveStubPath($stub)
+    {
+        return !is_file(__DIR__ . $stub)
+            ? $this->laravel->basePath(trim($stub, '/'))
+            : __DIR__ . $stub;
+    }
+    
     /**
      * Get the default namespace for the class.
      *
@@ -73,10 +105,10 @@ class ChannelMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $this->overiteNamespace('\Broadcasting');
+        return $this->overiteNamespace('\Database\Seeders');
     }
 
-    /**Î
+    /**
      * Get the console command options.
      *
      * @return array

@@ -101,7 +101,7 @@ class ConsoleMakeCommand extends GeneratorCommand
     {
         return [
             ['command', null, InputOption::VALUE_OPTIONAL, 'The terminal command that should be assigned', 'command:name'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

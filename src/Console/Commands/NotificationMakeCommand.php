@@ -139,7 +139,7 @@ class NotificationMakeCommand extends GeneratorCommand
 
             ['markdown', 'm', InputOption::VALUE_OPTIONAL, 'Create a new Markdown template for the notification'],
 
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

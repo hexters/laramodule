@@ -90,7 +90,7 @@ class RuleMakeCommand extends GeneratorCommand
     {
         return [
             ['implicit', 'i', InputOption::VALUE_NONE, 'Generate an implicit rule.'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

@@ -81,7 +81,7 @@ class RequestMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

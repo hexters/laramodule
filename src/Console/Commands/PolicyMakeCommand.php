@@ -205,7 +205,7 @@ class PolicyMakeCommand extends GeneratorCommand
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'The model that the policy applies to'],
             ['guard', 'g', InputOption::VALUE_OPTIONAL, 'The guard that the policy relies on'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

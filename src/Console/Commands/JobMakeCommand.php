@@ -85,7 +85,7 @@ class JobMakeCommand extends GeneratorCommand
     {
         return [
             ['sync', null, InputOption::VALUE_NONE, 'Indicates that job should be synchronous'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

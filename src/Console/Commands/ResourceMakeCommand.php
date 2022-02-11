@@ -110,7 +110,7 @@ class ResourceMakeCommand extends GeneratorCommand
     {
         return [
             ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

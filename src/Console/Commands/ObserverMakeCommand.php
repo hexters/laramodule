@@ -145,7 +145,7 @@ class ObserverMakeCommand extends GeneratorCommand
     {
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'The model that the observer applies to.'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }

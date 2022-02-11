@@ -220,7 +220,7 @@ class ModelMakeCommand extends GeneratorCommand
             ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller'],
             ['api', null, InputOption::VALUE_NONE, 'Indicates if the generated controller should be an API controller'],
             ['requests', 'R', InputOption::VALUE_NONE, 'Create new form request classes and use them in the resource controller'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Declaration module name for store this controller.']
+            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }
 }
