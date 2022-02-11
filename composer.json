@@ -1,0 +1,28 @@
+{
+    "name": "hexters/laramodule",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Asep",
+            "email": "hexters@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Hexters\\Laramodule\\": "src/"
+        },
+        "files": [
+            "./src/Helpers/Laramodule.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hexters\\Laramodule\\ServiceProviders\\LaramoduleServiceProvider"
+            ],
+            "aliases": {}
+        }
+    }
+}
