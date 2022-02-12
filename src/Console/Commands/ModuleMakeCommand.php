@@ -95,6 +95,11 @@ class ModuleMakeCommand extends Command
                 '--type' => 'load'
             ]);
 
+            $this->call('module:make-seeder', [
+                'name' => $name . 'DatabaseSeeder',
+                '--module' => $name
+            ]);
+
             file_put_contents($this->module_path("{$name}/app.json"), json_encode(
                 $this->appjson(), JSON_PRETTY_PRINT
             ));

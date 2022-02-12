@@ -15,7 +15,7 @@ class LaramoduleServiceProvider extends ServiceProvider
     public function register()
     {
         foreach ($this->get_all_module_informations() as $info) {
-            foreach ($info['providers'] as $providers) {
+            foreach ($info->providers as $providers) {
                 $this->app->register($providers);
             }
         }

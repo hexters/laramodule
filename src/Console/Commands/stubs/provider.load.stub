@@ -23,6 +23,16 @@ class {{ class }} extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->registerMigration();
+    }
+
+    /**
+     * Register Migration
+     *
+     * @return void
+     */
+    public function registerMigration()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../Databases/Migrations');
     }
 }

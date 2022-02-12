@@ -38,7 +38,7 @@ class MigrateMakeCommand extends Command
      */
     public function handle()
     {
-        $namespace = $this->overiteNamespace('\Databases\Database');
+        $namespace = $this->overiteNamespace('\Databases\Migrations');
         $options['name'] = $this->argument('name');
         $options['--path'] = Str::replace('\\', '/', $namespace);
         

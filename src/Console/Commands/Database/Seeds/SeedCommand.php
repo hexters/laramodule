@@ -18,7 +18,7 @@ class SeedCommand extends Command
      *
      * @var string
      */
-    protected $name = 'db:seed';
+    protected $name = 'module:seed {module}';
 
     /**
      * The name of the console command.
@@ -27,14 +27,14 @@ class SeedCommand extends Command
      *
      * @var string|null
      */
-    protected static $defaultName = 'db:seed';
+    protected static $defaultName = 'module:seed {module}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Seed the database with records';
+    protected $description = 'Seed the database with records in module';
 
     /**
      * The connection resolver instance.
@@ -62,8 +62,8 @@ class SeedCommand extends Command
      * @return int
      */
     public function handle()
-    {
-        if (! $this->confirmToProceed()) {
+    {   
+        if (!$this->confirmToProceed()) {
             return 1;
         }
 
@@ -91,20 +91,40 @@ class SeedCommand extends Command
      */
     protected function getSeeder()
     {
-        $class = $this->input->getArgument('class') ?? $this->input->getOption('class');
+        $namespace = $this->overiteNamespace('\Databases\Seeders');
+            
+        $__class = $this->input->getOption('class');
 
-        if (! str_contains($class, '\\')) {
-            $class = 'Database\\Seeders\\'.$class;
+        if( $__class ) {
+            $class = $namespace . '\\' . $__class;
+        } else {
+            $class = $namespace . '\\DatabaseSeeder';
         }
-
-        if ($class === 'Database\\Seeders\\DatabaseSeeder' &&
-            ! class_exists($class)) {
-            $class = 'DatabaseSeeder';
-        }
-
+        
         return $this->laravel->make($class)
-                        ->setContainer($this->laravel)
-                        ->setCommand($this);
+            ->setContainer($this->laravel)
+            ->setCommand($this);
+    }
+
+    /**
+     * Get module name
+     *
+     * @return void
+     */
+    protected function getModuleNameInput()
+    {
+        return ltrim(rtrim($this->argument('module'), '/'), '/');
+    }
+
+    /**
+     * Overite namespace module
+     *
+     * @param [type] $path
+     * @return void
+     */
+    protected function overiteNamespace($path)
+    {
+        return 'Modules\\' . $this->getModuleNameInput() . $path;
     }
 
     /**
@@ -127,7 +147,7 @@ class SeedCommand extends Command
     protected function getArguments()
     {
         return [
-            ['class', InputArgument::OPTIONAL, 'The class name of the root seeder', null],
+            ['module', InputArgument::OPTIONAL, 'The name of the module', null],
         ];
     }
 
@@ -139,7 +159,7 @@ class SeedCommand extends Command
     protected function getOptions()
     {
         return [
-            ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'Database\\Seeders\\DatabaseSeeder'],
+            ['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder'],
             ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed'],
             ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production'],
         ];
