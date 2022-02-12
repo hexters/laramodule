@@ -89,6 +89,16 @@ class ModuleMakeCommand extends Command
                 '--type' => 'base'
             ]);
 
+            $this->call('module:make-provider', [
+                'name' => $name . 'ServiceProvider',
+                '--module' => $name,
+                '--type' => 'load'
+            ]);
+
+            file_put_contents($this->module_path("{$name}/app.json"), json_encode(
+                $this->appjson(), JSON_PRETTY_PRINT
+            ));
+
             $this->info("{$name} module has been created.");
 
             return;
@@ -97,7 +107,25 @@ class ModuleMakeCommand extends Command
         $this->error('Module already exists!');
     }
 
-    private function module_path($path)
+    protected function namespace($module) {
+        return 'Modules\\' . $module . '\\';
+    }
+
+    protected function appjson() {
+        $name = Str::of($this->argument('name'))->camel();
+        $name = ucwords($name);
+
+        return [
+            'name' => strtolower($name),
+            'namespace' => $this->namespace($name),
+            'providers' => (Array) [
+                $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
+            ],
+            'status' => 'enabled'
+        ];
+    }
+
+    protected function module_path($path)
     {
         $path =  ltrim($path, '/');
         return base_path("Modules/{$path}");

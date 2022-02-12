@@ -46,7 +46,12 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return $this->resolveStubPath('/stubs/provider.stub');
+        if ($type = $this->option('type')) {
+            $stub = $this->resolveStubPath("/stubs/provider.{$type}.stub");
+        } else {
+            $stub = $this->resolveStubPath('/stubs/provider.stub');
+        }
+        return $stub;
     }
 
     /**
@@ -81,6 +86,7 @@ class ProviderMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
+            ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the provider stub file to use.'],
             ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
         ];
     }

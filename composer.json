@@ -20,7 +20,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Hexters\\Laramodule\\ServiceProviders\\LaramoduleServiceProvider"
+                "Hexters\\Laramodule\\ServiceProviders\\LaramoduleServiceProvider",
+                "Hexters\\Laramodule\\ServiceProviders\\ArtisanServiceProvider"
             ],
             "aliases": {}
         }

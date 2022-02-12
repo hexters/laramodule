@@ -80,7 +80,7 @@ class FactoryMakeCommand extends GeneratorCommand
 
         $model = class_basename($namespaceModel);
         
-        $namespace = $this->overiteNamespace('\\Database\\Factories');
+        $namespace = $this->overiteNamespace('\\Databases\\Factories');
 
         
 
@@ -111,7 +111,7 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $this->overiteNamespace('\Database\Factories');
+        return $this->overiteNamespace('\Databases\Factories');
     }
 
     /**

@@ -50,7 +50,7 @@ class SeederMakeCommand extends GeneratorCommand
     protected function buildClass($name)
     {
 
-        $namespace = $this->overiteNamespace('\\Database\\Seeders');
+        $namespace = $this->overiteNamespace('\\Databases\\Seeders');
 
         $replace = [
             '{{ seederNamespace }}' => $namespace,
@@ -105,7 +105,7 @@ class SeederMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $this->overiteNamespace('\Database\Seeders');
+        return $this->overiteNamespace('\Databases\Seeders');
     }
 
     /**
