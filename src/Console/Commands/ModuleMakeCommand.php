@@ -59,6 +59,11 @@ class ModuleMakeCommand extends Command
                 'Controllers',
                 'Middleware',
             ],
+            'Resources' => [
+                'css',
+                'js',
+                'View',
+            ],
             'Models' => [],
             'Providers' => []
         ];

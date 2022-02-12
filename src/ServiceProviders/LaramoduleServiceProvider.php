@@ -31,6 +31,11 @@ class LaramoduleServiceProvider extends ServiceProvider
     }
 
 
+    /**
+     * Get all module information
+     *
+     * @return void
+     */
     protected function get_all_module_informations()
     {
 
