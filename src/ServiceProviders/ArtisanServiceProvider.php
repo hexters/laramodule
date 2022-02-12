@@ -15,6 +15,7 @@ use Hexters\Laramodule\Console\Commands\Database\Factories\FactoryMakeCommand;
 use Hexters\Laramodule\Console\Commands\Database\Migrations\MigrateMakeCommand;
 use Hexters\Laramodule\Console\Commands\Database\Seeds\SeedCommand;
 use Hexters\Laramodule\Console\Commands\Database\Seeds\SeederMakeCommand;
+use Hexters\Laramodule\Console\Commands\EventMakeCommand;
 use Hexters\Laramodule\Console\Commands\ExceptionMakeCommand;
 use Hexters\Laramodule\Console\Commands\JobMakeCommand;
 use Hexters\Laramodule\Console\Commands\ListenerMakeCommand;
@@ -84,6 +85,7 @@ class ArtisanServiceProvider extends ServiceProvider
                 RuleMakeCommand::class,
                 ScopeMakeCommand::class,
                 TestMakeCommand::class,
+                EventMakeCommand::class,
 
                 FactoryMakeCommand::class,
                 SeederMakeCommand::class,

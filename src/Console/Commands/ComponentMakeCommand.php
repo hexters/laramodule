@@ -67,6 +67,19 @@ class ComponentMakeCommand extends GeneratorCommand
     }
 
     /**
+     * Get the first view directory path from the application configuration.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function viewPath($path = '')
+    {
+        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/view';
+
+        return $views . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+
+    /**
      * Write the view for the component.
      *
      * @param  callable|null  $onSuccess

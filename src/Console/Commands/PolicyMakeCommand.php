@@ -68,7 +68,7 @@ class PolicyMakeCommand extends GeneratorCommand
     protected function replaceUserNamespace($stub)
     {
         $model = $this->userProviderModel();
-
+        
         if (! $model) {
             return $stub;
         }
@@ -122,7 +122,7 @@ class PolicyMakeCommand extends GeneratorCommand
         } else {
             $namespacedModel = $this->qualifyModel($model);
         }
-
+        
         $model = class_basename(trim($model, '\\'));
 
         $dummyUser = class_basename($this->userProviderModel());

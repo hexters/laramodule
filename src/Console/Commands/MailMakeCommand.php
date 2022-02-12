@@ -48,13 +48,26 @@ class MailMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
-        if (parent::handle() === false && ! $this->option('force')) {
+        if (parent::handle() === false && !$this->option('force')) {
             return;
         }
 
         if ($this->option('markdown') !== false) {
             $this->writeMarkdownTemplate();
         }
+    }
+
+    /**
+     * Get the first view directory path from the application configuration.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function viewPath($path = '')
+    {
+        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/view';
+
+        return $views . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -65,14 +78,14 @@ class MailMakeCommand extends GeneratorCommand
     protected function writeMarkdownTemplate()
     {
         $path = $this->viewPath(
-            str_replace('.', '/', $this->getView()).'.blade.php'
+            str_replace('.', '/', $this->getView()) . '.blade.php'
         );
 
-        if (! $this->files->isDirectory(dirname($path))) {
+        if (!$this->files->isDirectory(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0755, true);
         }
 
-        $this->files->put($path, file_get_contents(__DIR__.'/stubs/markdown.stub'));
+        $this->files->put($path, file_get_contents(__DIR__ . '/stubs/markdown.stub'));
     }
 
     /**
@@ -101,8 +114,8 @@ class MailMakeCommand extends GeneratorCommand
     {
         $view = $this->option('markdown');
 
-        if (! $view) {
-            $view = 'mail.'.Str::kebab(class_basename($this->argument('name')));
+        if (!$view) {
+            $view = 'mail.' . Str::kebab(class_basename($this->argument('name')));
         }
 
         return $view;
@@ -118,7 +131,8 @@ class MailMakeCommand extends GeneratorCommand
         return $this->resolveStubPath(
             $this->option('markdown') !== false
                 ? '/stubs/markdown-mail.stub'
-                : '/stubs/mail.stub');
+                : '/stubs/mail.stub'
+        );
     }
 
     /**
@@ -131,7 +145,7 @@ class MailMakeCommand extends GeneratorCommand
     {
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
-            : __DIR__.$stub;
+            : __DIR__ . $stub;
     }
 
     /**
