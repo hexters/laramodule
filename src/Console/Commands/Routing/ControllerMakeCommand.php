@@ -134,7 +134,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function buildParentReplacements()
     {
-        $parentModelClass = $this->parseModel($this->option('parent'));
+        $parentModelClass = $this->option('parent');
         $module = $this->getModuleNameInput();
 
         if (! class_exists($parentModelClass) &&
@@ -163,7 +163,8 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function buildModelReplacements(array $replace)
     {
-        $modelClass = $this->parseModel($this->option('model'));
+        
+        $modelClass = $this->option('model');
         $module = $this->getModuleNameInput();
         
         if (! class_exists($modelClass) && $this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
@@ -257,12 +258,14 @@ class ControllerMakeCommand extends GeneratorCommand
 
         $this->call('module:make-request', [
             'name' => $storeRequestClass,
+            '--module' => $this->getModuleNameInput()
         ]);
 
         $updateRequestClass = 'Update'.class_basename($modelClass).'Request';
 
         $this->call('module:make-request', [
             'name' => $updateRequestClass,
+            '--module' => $this->getModuleNameInput()
         ]);
 
         return [$storeRequestClass, $updateRequestClass];

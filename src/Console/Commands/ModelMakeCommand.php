@@ -91,10 +91,11 @@ class ModelMakeCommand extends GeneratorCommand
     protected function createFactory()
     {
         $factory = Str::studly($this->argument('name'));
-
+        
         $this->call('module:make-factory', [
             'name' => "{$factory}Factory",
             '--model' => $this->qualifyClass($this->getNameInput()),
+            '--module' => $this->getModuleNameInput()
         ]);
     }
 
@@ -114,6 +115,7 @@ class ModelMakeCommand extends GeneratorCommand
         $this->call('module:make-migration', [
             'name' => "create_{$table}_table",
             '--create' => $table,
+            '--module' => $this->getModuleNameInput()
         ]);
     }
 
@@ -128,6 +130,7 @@ class ModelMakeCommand extends GeneratorCommand
 
         $this->call('module:make-seeder', [
             'name' => "{$seeder}Seeder",
+            '--module' => $this->getModuleNameInput()
         ]);
     }
 
@@ -141,12 +144,13 @@ class ModelMakeCommand extends GeneratorCommand
         $controller = Str::studly(class_basename($this->argument('name')));
 
         $modelName = $this->qualifyClass($this->getNameInput());
-
+        
         $this->call('module:make-controller', array_filter([
             'name' => "{$controller}Controller",
             '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
             '--api' => $this->option('api'),
             '--requests' => $this->option('requests') || $this->option('all'),
+            '--module' => $this->getModuleNameInput()
         ]));
     }
 
@@ -162,6 +166,7 @@ class ModelMakeCommand extends GeneratorCommand
         $this->call('module:make-policy', [
             'name' => "{$policy}Policy",
             '--model' => $this->qualifyClass($this->getNameInput()),
+            '--module' => $this->getModuleNameInput()
         ]);
     }
 
