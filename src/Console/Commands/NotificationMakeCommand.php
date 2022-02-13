@@ -2,6 +2,7 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
@@ -64,7 +65,7 @@ class NotificationMakeCommand extends GeneratorCommand
      */
     protected function viewPath($path = '')
     {
-        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/view';
+        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/views';
 
         return $views . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
@@ -96,9 +97,11 @@ class NotificationMakeCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $class = parent::buildClass($name);
+        $moduleName = Str::lower($this->getModuleNameInput());
+
 
         if ($this->option('markdown')) {
-            $class = str_replace(['DummyView', '{{ view }}'], $this->option('markdown'), $class);
+            $class = str_replace(['DummyView', '{{ view }}'], $moduleName . '::' . $this->option('markdown'), $class);
         }
 
         return $class;

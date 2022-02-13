@@ -74,7 +74,7 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     protected function viewPath($path = '')
     {
-        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/view';
+        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/views';
 
         return $views . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
@@ -129,9 +129,11 @@ class ComponentMakeCommand extends GeneratorCommand
             );
         }
 
+        $moduleName = Str::lower($this->getModuleNameInput());
+        
         return str_replace(
             ['DummyView', '{{ view }}'],
-            'view(\'components.'.$this->getView().'\')',
+            'view(\'' . $moduleName . '::components.'.$this->getView().'\')',
             parent::buildClass($name)
         );
     }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 
 class ModuleMakeCommand extends Command
 {
-    
+
     /**
      * The name and signature of the console command.
      *
@@ -38,8 +38,9 @@ class ModuleMakeCommand extends Command
      *
      * @return void
      */
-    protected function getModuleNameInput() {
-        return ltrim( rtrim($this->option('module'), '/') , '/');
+    protected function getModuleNameInput()
+    {
+        return ltrim(rtrim($this->option('module'), '/'), '/');
     }
 
     /**
@@ -59,11 +60,14 @@ class ModuleMakeCommand extends Command
                 'Controllers',
                 'Middleware',
             ],
+            'config' => [],
+            'lang' => [],
             'Resources' => [
                 'css',
                 'js',
-                'View',
+                'views',
             ],
+            'routes' => [],
             'Models' => [],
             'Providers' => []
         ];
@@ -80,6 +84,18 @@ class ModuleMakeCommand extends Command
 
                 if (count($items) < 1) {
                     file_put_contents($this->module_path("{$name}/{$item}/.gitkeep"), "");
+                }
+                if (in_array($item, ['config', 'routes'])) {
+
+                    if ($item === 'config') {
+                        $configFile = file_get_contents(__DIR__ . '/stubs/config.stub');
+                    } else if($item === 'routes') {
+                        $configFile = file_get_contents(__DIR__ . '/stubs/route.stub');
+                    }
+
+                    $content = Str::replace('{{ module }}', $name, $configFile);
+
+                    file_put_contents($this->module_path("{$name}/{$item}/module.php"), $content);
                 }
 
                 foreach ($items as $dir) {
@@ -106,7 +122,8 @@ class ModuleMakeCommand extends Command
             ]);
 
             file_put_contents($this->module_path("{$name}/app.json"), json_encode(
-                $this->appjson(), JSON_PRETTY_PRINT
+                $this->appjson(),
+                JSON_PRETTY_PRINT
             ));
 
             $this->info("{$name} module has been created.");
@@ -117,18 +134,20 @@ class ModuleMakeCommand extends Command
         $this->error('Module already exists!');
     }
 
-    protected function namespace($module) {
+    protected function namespace($module)
+    {
         return 'Modules\\' . $module . '\\';
     }
 
-    protected function appjson() {
+    protected function appjson()
+    {
         $name = Str::of($this->argument('name'))->camel();
         $name = ucwords($name);
 
         return [
             'name' => strtolower($name),
             'namespace' => $this->namespace($name),
-            'providers' => (Array) [
+            'providers' => (array) [
                 $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
             ],
             'status' => 'enabled'

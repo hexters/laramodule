@@ -2,9 +2,9 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class MailMakeCommand extends GeneratorCommand
@@ -65,7 +65,7 @@ class MailMakeCommand extends GeneratorCommand
      */
     protected function viewPath($path = '')
     {
-        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/view';
+        $views = 'Modules/' . $this->getModuleNameInput() . '/Resources/views';
 
         return $views . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
@@ -97,9 +97,13 @@ class MailMakeCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $class = parent::buildClass($name);
+        $moduleName = Str::lower($this->getModuleNameInput());
+        $getView = $moduleName . '::view.name';
 
         if ($this->option('markdown') !== false) {
-            $class = str_replace(['DummyView', '{{ view }}'], $this->getView(), $class);
+            $class = str_replace(['DummyView', '{{ view }}'], $moduleName . '::' . $this->getView(), $class);
+        } else {
+            $class = str_replace(['DummyView', 'view.name'], $getView, $class);
         }
 
         return $class;
@@ -113,7 +117,7 @@ class MailMakeCommand extends GeneratorCommand
     protected function getView()
     {
         $view = $this->option('markdown');
-
+        
         if (!$view) {
             $view = 'mail.' . Str::kebab(class_basename($this->argument('name')));
         }

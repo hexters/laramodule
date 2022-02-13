@@ -2,6 +2,7 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -65,6 +66,24 @@ class ProviderMakeCommand extends GeneratorCommand
         return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
             ? $customPath
             : __DIR__.$stub;
+    }
+
+    /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function buildClass($name)
+    {
+        $class = parent::buildClass($name);
+        $moduleName = Str::lower($this->getModuleNameInput());
+        
+        if ($this->option('type') !== false) {
+            $class = str_replace(['DummyView', '{{ module }}'], $moduleName, $class);
+        }
+
+        return $class;
     }
 
     /**
