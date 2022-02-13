@@ -94,6 +94,7 @@ class ModuleMakeCommand extends Command
                     }
 
                     $content = Str::replace('{{ module }}', $name, $configFile);
+                    $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
 
                     file_put_contents($this->module_path("{$name}/{$item}/module.php"), $content);
                 }
