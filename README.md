@@ -9,7 +9,9 @@ By default the module classes are not loaded automatically. You can autoload you
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Modules\\": "Modules/"
+      "Modules\\": "Modules/",
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/"
     }
   }
 }
