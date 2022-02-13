@@ -51,6 +51,22 @@ trait BaseCommandTrait
     }
 
     /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        
+        if(is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+
+        parent::handle();
+    }
+
+    /**
      * Overite namespace module
      *
      * @param [type] $path

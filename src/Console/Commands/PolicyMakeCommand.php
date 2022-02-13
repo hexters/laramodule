@@ -192,7 +192,7 @@ class PolicyMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        $this->overiteNamespace('\Policies');
+        return $this->overiteNamespace('\Policies');
     }
 
     /**
