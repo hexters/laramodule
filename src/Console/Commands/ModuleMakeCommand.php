@@ -89,14 +89,21 @@ class ModuleMakeCommand extends Command
 
                     if ($item === 'config') {
                         $configFile = file_get_contents(__DIR__ . '/stubs/config.stub');
-                    } else if($item === 'routes') {
-                        $configFile = file_get_contents(__DIR__ . '/stubs/route.stub');
+
+                        $content = Str::replace('{{ module }}', $name, $configFile);
+                        $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
+
+                        file_put_contents($this->module_path("{$name}/{$item}/module.php"), $content);
+                    } else if ($item === 'routes') {
+
+                        $routeFile = file_get_contents(__DIR__ . '/stubs/route.stub');
+                        $content = Str::replace('{{ module }}', $name, $routeFile);
+                        file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
+
+                        $apiRouteFile = file_get_contents(__DIR__ . '/stubs/route.api.stub');
+                        $content = Str::replace('{{ module }}', $name, $apiRouteFile);
+                        file_put_contents($this->module_path("{$name}/{$item}/api.php"), $content);
                     }
-
-                    $content = Str::replace('{{ module }}', $name, $configFile);
-                    $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
-
-                    file_put_contents($this->module_path("{$name}/{$item}/module.php"), $content);
                 }
 
                 foreach ($items as $dir) {
@@ -117,8 +124,15 @@ class ModuleMakeCommand extends Command
                 '--type' => 'load'
             ]);
 
+            $this->call('module:make-provider', [
+                'name' => 'RouteServiceProvider',
+                '--module' => $name,
+                '--type' => 'route'
+            ]);
+
+
             $this->call('module:make-seeder', [
-                'name' => $name . 'DatabaseSeeder',
+                'name' => 'DatabaseSeeder',
                 '--module' => $name
             ]);
 
@@ -150,6 +164,7 @@ class ModuleMakeCommand extends Command
             'namespace' => $this->namespace($name),
             'providers' => (array) [
                 $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
+                $this->namespace($name) . 'Providers\\' . 'RouteServiceProvider',
             ],
             'status' => 'enabled'
         ];

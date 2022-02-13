@@ -81,7 +81,21 @@ class ModelMakeCommand extends GeneratorCommand
             $this->createPolicy();
         }
     }
-    
+
+    /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function buildClass($name)
+    {
+        $class = parent::buildClass($name);
+        $moduleName = $this->getModuleNameInput();
+        $class = str_replace(['DummyView', '{{ module }}'], $moduleName, $class);
+
+        return $class;
+    }
 
     /**
      * Create a model factory for the model.
@@ -91,7 +105,7 @@ class ModelMakeCommand extends GeneratorCommand
     protected function createFactory()
     {
         $factory = Str::studly($this->argument('name'));
-        
+
         $this->call('module:make-factory', [
             'name' => "{$factory}Factory",
             '--model' => $this->qualifyClass($this->getNameInput()),
@@ -144,7 +158,7 @@ class ModelMakeCommand extends GeneratorCommand
         $controller = Str::studly(class_basename($this->argument('name')));
 
         $modelName = $this->qualifyClass($this->getNameInput());
-        
+
         $this->call('module:make-controller', array_filter([
             'name' => "{$controller}Controller",
             '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
@@ -190,9 +204,7 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function resolveStubPath($stub)
     {
-        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-            ? $customPath
-            : __DIR__ . $stub;
+        return __DIR__ . $stub;
     }
 
     /**
