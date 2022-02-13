@@ -8,7 +8,6 @@
             "email": "hexters@gmail.com"
         }
     ],
-    "require": {},
     "autoload": {
         "psr-4": {
             "Hexters\\Laramodule\\": "src/"
@@ -16,6 +15,11 @@
         "files": [
             "./src/Helpers/Laramodule.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hexters\\Laramodule\\Test\\": "tests/"
+        }
     },
     "extra": {
         "laravel": {
@@ -25,5 +29,8 @@
             ],
             "aliases": {}
         }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.24"
     }
 }
