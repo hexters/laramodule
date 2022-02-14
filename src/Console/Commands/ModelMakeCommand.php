@@ -48,6 +48,11 @@ class ModelMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
+        if (is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+
         if (parent::handle() === false && !$this->option('force')) {
             return false;
         }

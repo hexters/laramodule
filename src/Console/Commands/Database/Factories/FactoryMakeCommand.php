@@ -59,9 +59,7 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected function resolveStubPath($stub)
     {
-        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-            ? $customPath
-            : __DIR__ . $stub;
+        return __DIR__ . $stub;
     }
 
     /**
@@ -92,6 +90,8 @@ class FactoryMakeCommand extends GeneratorCommand
             'DummyModel' => $model,
             '{{ model }}' => $model,
             '{{model}}' => $model,
+            '{{ module }}' => $this->getModuleNameInput(),
+            '{{module}}' => $this->getModuleNameInput(),
             '{{ factory }}' => $factory,
             '{{factory}}' => $factory,
         ];

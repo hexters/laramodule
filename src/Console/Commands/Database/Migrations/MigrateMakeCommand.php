@@ -38,6 +38,11 @@ class MigrateMakeCommand extends Command
      */
     public function handle()
     {
+        if(is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+        
         $namespace = $this->overiteNamespace('\Databases\Migrations');
         $options['name'] = $this->argument('name');
         $options['--path'] = Str::replace('\\', '/', $namespace);

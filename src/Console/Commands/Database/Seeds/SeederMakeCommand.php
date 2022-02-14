@@ -71,6 +71,12 @@ class SeederMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
+        
+        if(is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+
         parent::handle();
     }
 
@@ -92,9 +98,7 @@ class SeederMakeCommand extends GeneratorCommand
      */
     protected function resolveStubPath($stub)
     {
-        return !is_file(__DIR__ . $stub)
-            ? $this->laravel->basePath(trim($stub, '/'))
-            : __DIR__ . $stub;
+        return __DIR__ . $stub;
     }
     
     /**

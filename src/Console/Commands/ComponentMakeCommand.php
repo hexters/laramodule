@@ -49,6 +49,12 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
+
+        if(is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+        
         if ($this->option('view')) {
             $this->writeView(function () {
                 $this->info($this->type.' created successfully.');
@@ -172,9 +178,7 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     protected function resolveStubPath($stub)
     {
-        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-                        ? $customPath
-                        : __DIR__.$stub;
+        return __DIR__ . $stub;
     }
 
     /**

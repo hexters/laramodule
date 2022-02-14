@@ -21,13 +21,11 @@ class {{ class }} extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('{{ module }}/api')
-                ->middleware('api')
+            Route::middleware('api')
                 ->namespace($this->namespace)
                 ->group(module_path('{{ module }}', 'routes/api.php'));
 
             Route::middleware('web')
-                ->prefix('{{ module }}')
                 ->namespace($this->namespace)
                 ->group(module_path('{{ module }}', 'routes/web.php'));
         });

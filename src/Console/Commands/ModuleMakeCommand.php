@@ -61,7 +61,9 @@ class ModuleMakeCommand extends Command
                 'Middleware',
             ],
             'config' => [],
-            'lang' => [],
+            'lang' => [
+                'en'
+            ],
             'Resources' => [
                 'css',
                 'js',
@@ -98,10 +100,12 @@ class ModuleMakeCommand extends Command
 
                         $routeFile = file_get_contents(__DIR__ . '/stubs/route.stub');
                         $content = Str::replace('{{ module }}', $name, $routeFile);
+                        $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
 
                         $apiRouteFile = file_get_contents(__DIR__ . '/stubs/route.api.stub');
                         $content = Str::replace('{{ module }}', $name, $apiRouteFile);
+                        $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/api.php"), $content);
                     }
                 }
@@ -141,7 +145,7 @@ class ModuleMakeCommand extends Command
                 JSON_PRETTY_PRINT
             ));
 
-            $this->info("{$name} module has been created.");
+            $this->info("Module {$name} created successfully.");
 
             return;
         }

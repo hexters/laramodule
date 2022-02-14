@@ -48,6 +48,11 @@ class MailMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
+        if(is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+        
         if (parent::handle() === false && !$this->option('force')) {
             return;
         }
@@ -147,9 +152,7 @@ class MailMakeCommand extends GeneratorCommand
      */
     protected function resolveStubPath($stub)
     {
-        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-            ? $customPath
-            : __DIR__ . $stub;
+        return __DIR__ . $stub;
     }
 
     /**
