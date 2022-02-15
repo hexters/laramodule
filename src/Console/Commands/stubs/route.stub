@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => '{{ moduleLower }}', 'as' => '{{ moduleLower }}.'], function () {
     Route::get('/', function () {
         return 'Welcome to {{ module }} Module';
-    });
+    })->name('home');
 });
