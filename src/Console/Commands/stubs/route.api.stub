@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => '/api/{{ moduleLower }}', 'as' => 'api.{{ moduleLower }}.'], function () {
+Route::group(['prefix' => '/{{ moduleLower }}/api', 'as' => '{{ moduleLower }}.api.'], function () {
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });

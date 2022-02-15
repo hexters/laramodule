@@ -98,12 +98,12 @@ class ModuleMakeCommand extends Command
                         file_put_contents($this->module_path("{$name}/{$item}/module.php"), $content);
                     } else if ($item === 'routes') {
 
-                        $routeFile = file_get_contents(__DIR__ . '/stubs/route.stub');
+                        $routeFile = file_get_contents( $this->getRouteStub('route.stub') );
                         $content = Str::replace('{{ module }}', $name, $routeFile);
                         $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
 
-                        $apiRouteFile = file_get_contents(__DIR__ . '/stubs/route.api.stub');
+                        $apiRouteFile = file_get_contents( $this->getRouteStub('route.api.stub') );
                         $content = Str::replace('{{ module }}', $name, $apiRouteFile);
                         $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/api.php"), $content);
@@ -151,6 +151,15 @@ class ModuleMakeCommand extends Command
         }
 
         $this->error('Module already exists!');
+    }
+
+    protected function getRouteStub( $stub ) {
+        
+        if( is_file( base_path('stubs/' . $stub) ) ) {
+            return base_path( 'stubs/' . $stub );
+        }
+        
+        return __DIR__ . '/stubs/' . $stub;
     }
 
     protected function namespace($module)

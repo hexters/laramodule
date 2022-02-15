@@ -80,7 +80,7 @@ class {{ class }} extends ServiceProvider
      */
     protected function registerBladeView() 
     {
-        return $this->loadViewsFrom(__DIR__ . '/../Resources/views', '{{ module }}');
+        $this->loadViewsFrom(__DIR__ . '/../Resources/views', '{{ module }}');
     }
 
     /**
@@ -90,6 +90,6 @@ class {{ class }} extends ServiceProvider
      */
     protected function registerTranslations()
     {
-        return $this->loadTranslationsFrom(__DIR__ . '/lang', '{{ module }}');
+        $this->loadTranslationsFrom(__DIR__ . '/lang', '{{ module }}');
     }
 }
