@@ -65,6 +65,7 @@ class ModuleMakeCommand extends Command
                 'en'
             ],
             'Resources' => [
+                'sass',
                 'css',
                 'js',
                 'views',
@@ -98,12 +99,12 @@ class ModuleMakeCommand extends Command
                         file_put_contents($this->module_path("{$name}/{$item}/module.php"), $content);
                     } else if ($item === 'routes') {
 
-                        $routeFile = file_get_contents( $this->getRouteStub('route.stub') );
+                        $routeFile = file_get_contents($this->getRouteStub('route.stub'));
                         $content = Str::replace('{{ module }}', $name, $routeFile);
                         $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
 
-                        $apiRouteFile = file_get_contents( $this->getRouteStub('route.api.stub') );
+                        $apiRouteFile = file_get_contents($this->getRouteStub('route.api.stub'));
                         $content = Str::replace('{{ module }}', $name, $apiRouteFile);
                         $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/api.php"), $content);
@@ -112,7 +113,13 @@ class ModuleMakeCommand extends Command
 
                 foreach ($items as $dir) {
                     mkdir($this->module_path("{$name}/{$item}/{$dir}"));
-                    file_put_contents($this->module_path("{$name}/{$item}/{$dir}/.gitkeep"), "");
+
+                    if (in_array($dir, ['js', 'css', 'sass'])) {
+                        $extention = $dir === 'sass' ? 'scss' : $dir;
+                        file_put_contents($this->module_path("{$name}/{$item}/{$dir}/app." . $extention), "");
+                    } else {
+                        file_put_contents($this->module_path("{$name}/{$item}/{$dir}/.gitkeep"), "");
+                    }
                 }
             }
 
@@ -145,6 +152,17 @@ class ModuleMakeCommand extends Command
                 JSON_PRETTY_PRINT
             ));
 
+            file_put_contents($this->module_path("{$name}/.gitignore"), "/node_modules\npackage-lock.json\nyarn.lock");
+
+
+            $loweName = strtolower($name);
+            $webpack = file_get_contents(__DIR__ . '/stubs/webpack.stub');
+            $webpack = str_replace('{{ module }}', $loweName, $webpack);
+            file_put_contents($this->module_path("{$name}/webpack.mix.js"), $webpack);
+
+            $package = file_get_contents(__DIR__ . '/stubs/package.stub');
+            file_put_contents($this->module_path("{$name}/package.json"), $package);
+
             $this->info("Module {$name} created successfully.");
 
             return;
@@ -153,12 +171,13 @@ class ModuleMakeCommand extends Command
         $this->error('Module already exists!');
     }
 
-    protected function getRouteStub( $stub ) {
-        
-        if( is_file( base_path('stubs/' . $stub) ) ) {
-            return base_path( 'stubs/' . $stub );
+    protected function getRouteStub($stub)
+    {
+
+        if (is_file(base_path('stubs/' . $stub))) {
+            return base_path('stubs/' . $stub);
         }
-        
+
         return __DIR__ . '/stubs/' . $stub;
     }
 
