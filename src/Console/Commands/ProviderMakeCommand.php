@@ -76,9 +76,11 @@ class ProviderMakeCommand extends GeneratorCommand
     {
         $class = parent::buildClass($name);
         $moduleName = Str::lower($this->getModuleNameInput());
+        $moduleNameOriginal = $this->getModuleNameInput();
         
         if ($this->option('type') !== false) {
             $class = str_replace(['DummyView', '{{ module }}'], $moduleName, $class);
+            $class = str_replace(['DummyView', '{{ moduleUpper }}'], $moduleNameOriginal, $class);
         }
 
         return $class;
