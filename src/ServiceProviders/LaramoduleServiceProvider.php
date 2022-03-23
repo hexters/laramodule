@@ -38,16 +38,19 @@ class LaramoduleServiceProvider extends ServiceProvider
      */
     protected function get_all_module_informations()
     {
-
         $informations = [];
-        foreach (module_load_all() as $module) {
 
-            if (file_exists($module . DIRECTORY_SEPARATOR . 'app.json')) {
-                $informations[] = json_decode(
-                    file_get_contents($module . DIRECTORY_SEPARATOR . 'app.json')
-                );
+        if (is_dir(base_path('Modules'))) {
+            foreach (module_load_all() as $module) {
+
+                if (file_exists($module . DIRECTORY_SEPARATOR . 'app.json')) {
+                    $informations[] = json_decode(
+                        file_get_contents($module . DIRECTORY_SEPARATOR . 'app.json')
+                    );
+                }
             }
         }
+
 
         return $informations;
     }

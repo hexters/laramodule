@@ -63,6 +63,12 @@ class SeedCommand extends Command
      */
     public function handle()
     {   
+
+        if(is_null($this->argument('module'))) {
+            $this->error('Please specify the module name');
+            exit();
+        }
+
         if (!$this->confirmToProceed()) {
             return 1;
         }
