@@ -46,3 +46,5 @@ php artisan module:make-scope BlogScope --module=Blog
 php artisan module:make-seeder BlogSeeder --module=Blog
 php artisan module:make-test BlogTest --module=Blog
 ```
+
+Happy coding ☕
