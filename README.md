@@ -1,5 +1,10 @@
 # Laravel Module
 
+To install through Composer, by run the following command:
+
+```bash
+$ composer require hexters/laramodule
+```
 
 
 ### Autoloading
