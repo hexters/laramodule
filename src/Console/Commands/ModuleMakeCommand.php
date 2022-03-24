@@ -136,6 +136,12 @@ class ModuleMakeCommand extends Command
             ]);
 
             $this->call('module:make-provider', [
+                'name' => 'EventServiceProvider',
+                '--module' => $name,
+                '--type' => 'event'
+            ]);
+
+            $this->call('module:make-provider', [
                 'name' => 'RouteServiceProvider',
                 '--module' => $name,
                 '--type' => 'route'
@@ -196,6 +202,7 @@ class ModuleMakeCommand extends Command
             'namespace' => $this->namespace($name),
             'providers' => (array) [
                 $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
+                $this->namespace($name) . 'Providers\\' . 'EventServiceProvider',
                 $this->namespace($name) . 'Providers\\' . 'RouteServiceProvider',
             ],
             'status' => 'enabled'
