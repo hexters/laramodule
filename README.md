@@ -1,5 +1,10 @@
 # Laravel Module
 
+To install through Composer, by run the following command:
+
+```bash
+$ composer require hexters/laramodule
+```
 
 
 ### Autoloading
@@ -46,3 +51,5 @@ php artisan module:make-scope BlogScope --module=Blog
 php artisan module:make-seeder BlogSeeder --module=Blog
 php artisan module:make-test BlogTest --module=Blog
 ```
+
+Happy coding ☕
