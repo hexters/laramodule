@@ -117,6 +117,11 @@ class ModuleMakeCommand extends Command
                     if (in_array($dir, ['js', 'css', 'sass'])) {
                         $extention = $dir === 'sass' ? 'scss' : $dir;
                         file_put_contents($this->module_path("{$name}/{$item}/{$dir}/app." . $extention), "");
+                    } else if (in_array($dir, ['views'])) {
+                        $blade = file_get_contents($this->getBladeStub('welcome.blade.stub'));
+                        $content = Str::replace('{{ module }}', $name, $blade);
+
+                        file_put_contents($this->module_path("{$name}/{$item}/{$dir}/welcome.blade.php"), $content);
                     } else {
                         file_put_contents($this->module_path("{$name}/{$item}/{$dir}/.gitkeep"), "");
                     }
@@ -175,6 +180,15 @@ class ModuleMakeCommand extends Command
         }
 
         $this->error('Module already exists!');
+    }
+
+    protected function getBladeStub($stub)
+    {
+        if (is_file(base_path('stubs/' . $stub))) {
+            return base_path('stubs/' . $stub);
+        }
+
+        return __DIR__ . '/stubs/' . $stub;
     }
 
     protected function getRouteStub($stub)
