@@ -40,7 +40,8 @@ class ModuleMakeCommand extends Command
      */
     protected function getModuleNameInput()
     {
-        return ltrim(rtrim($this->option('module'), '/'), '/');
+        $name = ltrim(rtrim($this->option('module'), '/'), '/');
+        return ucwords($name);
     }
 
     /**

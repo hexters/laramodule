@@ -62,9 +62,9 @@ class SeedCommand extends Command
      * @return int
      */
     public function handle()
-    {   
+    {
 
-        if(is_null($this->argument('module'))) {
+        if (is_null($this->argument('module'))) {
             $this->error('Please specify the module name');
             exit();
         }
@@ -98,15 +98,15 @@ class SeedCommand extends Command
     protected function getSeeder()
     {
         $namespace = $this->overiteNamespace('\Databases\Seeders');
-            
+
         $__class = $this->input->getOption('class');
 
-        if( $__class ) {
+        if ($__class) {
             $class = $namespace . '\\' . $__class;
         } else {
             $class = $namespace . '\\DatabaseSeeder';
         }
-        
+
         return $this->laravel->make($class)
             ->setContainer($this->laravel)
             ->setCommand($this);
@@ -119,7 +119,8 @@ class SeedCommand extends Command
      */
     protected function getModuleNameInput()
     {
-        return ltrim(rtrim($this->argument('module'), '/'), '/');
+        $name = ltrim(rtrim($this->argument('module'), '/'), '/');
+        return ucwords($name);
     }
 
     /**
