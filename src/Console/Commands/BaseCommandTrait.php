@@ -36,7 +36,7 @@ trait BaseCommandTrait
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
         $module = $this->getModuleNameInput();
-        $path = base_path('modules') . '/' . $module . '/' . str_replace('\\', '/', $name) . '.php';
+        $path = base_path('Modules') . '/' . $module . '/' . str_replace('\\', '/', $name) . '.php';
         return $path;
     }
 
