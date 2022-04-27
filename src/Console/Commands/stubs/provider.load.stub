@@ -90,6 +90,6 @@ class {{ class }} extends ServiceProvider
      */
     protected function registerTranslations()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/lang', '{{ module }}');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', '{{ module }}');
     }
 }
