@@ -104,11 +104,7 @@ class ModuleMakeCommand extends Command
                         $content = Str::replace('{{ module }}', $name, $routeFile);
                         $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
-
-                        $apiRouteFile = file_get_contents($this->getRouteStub('route.api.stub'));
-                        $content = Str::replace('{{ module }}', $name, $apiRouteFile);
-                        $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
-                        file_put_contents($this->module_path("{$name}/{$item}/api.php"), $content);
+                        
                     }
                 }
 
