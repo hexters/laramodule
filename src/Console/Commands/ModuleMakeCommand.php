@@ -169,6 +169,9 @@ class ModuleMakeCommand extends Command
             file_put_contents($this->module_path("{$name}/package.json"), $package);
 
             $this->info("Module {$name} created successfully.");
+            $this->line('');
+            $this->info('visit : ' . url($loweName));
+            $this->line('');
 
             return;
         }
