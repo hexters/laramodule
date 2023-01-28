@@ -1,4 +1,12 @@
-# Laravel Module
+# Laravel Module HMVC
+
+Laramodule is a package for the Laravel framework that allows developers to organize and manage modules within their web application. It is designed to make it easy to create, manage and reuse modular components within a Laravel application.
+
+With Laramodule, developers can create new modules that can be easily added to their application, and can also manage existing modules. It also allows developers to keep their code organized and maintainable, by separating different functionality into different modules. Each module can include its own controllers, views, routes, and other components.
+
+Laramodule also provides an easy to use API for interacting with modules and their components. This allows developers to perform tasks such as enabling or disabling modules, and accessing module specific data or functionality.
+
+Laramodule is a powerful tool for developers who want to create modular and maintainable applications with Laravel. It can help developers to speed up development, improve code quality and maintain a cleaner structure of their application.
 
 To install through Composer, by run the following command:
 
