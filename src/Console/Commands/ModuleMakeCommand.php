@@ -78,6 +78,7 @@ class ModuleMakeCommand extends Command
 
         $name = Str::of($this->argument('name'))->camel();
         $name = ucwords($name);
+        $loweName = strtolower($name);
 
         if (!is_dir($this->module_path($name))) {
 
@@ -113,7 +114,7 @@ class ModuleMakeCommand extends Command
 
                     if (in_array($dir, ['js', 'css', 'sass'])) {
                         $extention = $dir === 'sass' ? 'scss' : $dir;
-                        file_put_contents($this->module_path("{$name}/{$item}/{$dir}/app." . $extention), "");
+                        file_put_contents($this->module_path("{$name}/{$item}/{$dir}/{$loweName}." . $extention), "");
                     } else if (in_array($dir, ['views'])) {
                         $blade = file_get_contents($this->getBladeStub('welcome.blade.stub'));
                         $content = Str::replace('{{ module }}', $name, $blade);
@@ -161,9 +162,7 @@ class ModuleMakeCommand extends Command
             ));
 
             file_put_contents($this->module_path("{$name}/.gitignore"), "/node_modules\npackage-lock.json\nyarn.lock");
-
-
-            $loweName = strtolower($name);
+            
             $webpack = file_get_contents(__DIR__ . '/stubs/webpack.stub');
             $webpack = str_replace('{{ module }}', $loweName, $webpack);
             file_put_contents($this->module_path("{$name}/webpack.mix.js"), $webpack);
