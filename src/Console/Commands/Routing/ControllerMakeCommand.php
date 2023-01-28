@@ -3,6 +3,7 @@
 namespace Hexters\Laramodule\Console\Commands\Routing;
 
 use Hexters\Laramodule\Console\Commands\BaseCommandTrait;;
+
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
 use InvalidArgumentException;
@@ -66,7 +67,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
         if ($this->option('api') && is_null($stub)) {
             $stub = '/stubs/controller.api.stub';
-        } elseif ($this->option('api') && ! is_null($stub) && ! $this->option('invokable')) {
+        } elseif ($this->option('api') && !is_null($stub) && !$this->option('invokable')) {
             $stub = str_replace('.stub', '.api.stub', $stub);
         }
 
@@ -74,7 +75,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
         return $this->resolveStubPath($stub);
     }
-    
+
     /**
      * Resolve the fully-qualified path to the stub.
      *
@@ -83,9 +84,14 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function resolveStubPath($stub)
     {
+        
+        if (is_file($stub)) {
+            return base_path($stub);
+        }
+
         return __DIR__ . $stub;
     }
-    
+
     /**
      * Get the default namespace for the class.
      *
@@ -93,11 +99,11 @@ class ControllerMakeCommand extends GeneratorCommand
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
-    {   
+    {
         $module = $this->getModuleNameInput();
         return "Modules\\" . $module . "\Http\Controllers";
     }
-    
+
     /**
      * Build the class with the given name.
      *
@@ -119,9 +125,11 @@ class ControllerMakeCommand extends GeneratorCommand
         if ($this->option('model')) {
             $replace = $this->buildModelReplacements($replace);
         }
-        
+
         return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
+            array_keys($replace),
+            array_values($replace),
+            parent::buildClass($name)
         );
     }
 
@@ -135,8 +143,10 @@ class ControllerMakeCommand extends GeneratorCommand
         $parentModelClass = $this->option('parent');
         $module = $this->getModuleNameInput();
 
-        if (! class_exists($parentModelClass) &&
-            $this->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)) {
+        if (
+            !class_exists($parentModelClass) &&
+            $this->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)
+        ) {
             $this->call('module:make-model', ['name' => $parentModelClass, '--module' => $module]);
         }
 
@@ -161,11 +171,11 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function buildModelReplacements(array $replace)
     {
-        
+
         $modelClass = $this->option('model');
         $module = $this->getModuleNameInput();
-        
-        if (! class_exists($modelClass) && $this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
+
+        if (!class_exists($modelClass) && $this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
             $this->call('module:make-model', ['name' => $modelClass, '--module' => $module]);
         }
 
@@ -218,14 +228,16 @@ class ControllerMakeCommand extends GeneratorCommand
             $namespace = 'Modules\\' . $this->getModuleNameInput() . '\\Http\\Requests';
 
             [$storeRequestClass, $updateRequestClass] = $this->generateFormRequests(
-                $modelClass, $storeRequestClass, $updateRequestClass
+                $modelClass,
+                $storeRequestClass,
+                $updateRequestClass
             );
         }
 
-        $namespacedRequests = $namespace.'\\'.$storeRequestClass.';';
+        $namespacedRequests = $namespace . '\\' . $storeRequestClass . ';';
 
         if ($storeRequestClass !== $updateRequestClass) {
-            $namespacedRequests .= PHP_EOL.'use '.$namespace.'\\'.$updateRequestClass.';';
+            $namespacedRequests .= PHP_EOL . 'use ' . $namespace . '\\' . $updateRequestClass . ';';
         }
 
         return array_merge($replace, [
@@ -233,10 +245,10 @@ class ControllerMakeCommand extends GeneratorCommand
             '{{storeRequest}}' => $storeRequestClass,
             '{{ updateRequest }}' => $updateRequestClass,
             '{{updateRequest}}' => $updateRequestClass,
-            '{{ namespacedStoreRequest }}' => $namespace.'\\'.$storeRequestClass,
-            '{{namespacedStoreRequest}}' => $namespace.'\\'.$storeRequestClass,
-            '{{ namespacedUpdateRequest }}' => $namespace.'\\'.$updateRequestClass,
-            '{{namespacedUpdateRequest}}' => $namespace.'\\'.$updateRequestClass,
+            '{{ namespacedStoreRequest }}' => $namespace . '\\' . $storeRequestClass,
+            '{{namespacedStoreRequest}}' => $namespace . '\\' . $storeRequestClass,
+            '{{ namespacedUpdateRequest }}' => $namespace . '\\' . $updateRequestClass,
+            '{{namespacedUpdateRequest}}' => $namespace . '\\' . $updateRequestClass,
             '{{ namespacedRequests }}' => $namespacedRequests,
             '{{namespacedRequests}}' => $namespacedRequests,
         ]);
@@ -252,14 +264,14 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function generateFormRequests($modelClass, $storeRequestClass, $updateRequestClass)
     {
-        $storeRequestClass = 'Store'.class_basename($modelClass).'Request';
+        $storeRequestClass = 'Store' . class_basename($modelClass) . 'Request';
 
         $this->call('module:make-request', [
             'name' => $storeRequestClass,
             '--module' => $this->getModuleNameInput()
         ]);
 
-        $updateRequestClass = 'Update'.class_basename($modelClass).'Request';
+        $updateRequestClass = 'Update' . class_basename($modelClass) . 'Request';
 
         $this->call('module:make-request', [
             'name' => $updateRequestClass,
