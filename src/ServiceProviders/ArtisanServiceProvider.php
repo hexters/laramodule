@@ -25,6 +25,7 @@ use Hexters\Laramodule\Console\Commands\NotificationMakeCommand;
 use Hexters\Laramodule\Console\Commands\ObserverMakeCommand;
 use Hexters\Laramodule\Console\Commands\PolicyMakeCommand;
 use Hexters\Laramodule\Console\Commands\ProviderMakeCommand;
+use Hexters\Laramodule\Console\Commands\PublishPackageModuleCommand;
 use Hexters\Laramodule\Console\Commands\RequestMakeCommand;
 use Hexters\Laramodule\Console\Commands\ResourceMakeCommand;
 use Hexters\Laramodule\Console\Commands\RuleMakeCommand;
@@ -67,6 +68,7 @@ class ArtisanServiceProvider extends ServiceProvider
                 ModuleMakeCommand::class,
                 ControllerMakeCommand::class,
                 MiddlewareMakeCommand::class,
+                PublishPackageModuleCommand::class,
                 CastMakeCommand::class,
                 ChannelMakeCommand::class,
                 ComponentMakeCommand::class,
