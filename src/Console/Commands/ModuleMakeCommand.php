@@ -118,6 +118,8 @@ class ModuleMakeCommand extends Command
                     } else if (in_array($dir, ['views'])) {
                         $blade = file_get_contents($this->getBladeStub('welcome.blade.stub'));
                         $content = Str::replace('{{ module }}', $name, $blade);
+                        $content = Str::replace('/{{ module }}/', strtolower($name), $content);
+                        $content = Str::replace('{{ moduleLower }}', strtolower($name), $content);
 
                         file_put_contents($this->module_path("{$name}/{$item}/{$dir}/welcome.blade.php"), $content);
                     } else {
