@@ -50,6 +50,7 @@ php artisan module:make-rule BlogRule --module=Blog
 php artisan module:make-scope BlogScope --module=Blog
 php artisan module:make-seeder BlogSeeder --module=Blog
 php artisan module:make-test BlogTest --module=Blog
+php artisan module:publish Blog
 ```
 
 Happy coding ☕
