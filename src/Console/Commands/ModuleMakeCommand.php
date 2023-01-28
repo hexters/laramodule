@@ -163,10 +163,6 @@ class ModuleMakeCommand extends Command
 
             file_put_contents($this->module_path("{$name}/.gitignore"), "/node_modules\npackage-lock.json\nyarn.lock");
             
-            $webpack = file_get_contents(__DIR__ . '/stubs/webpack.stub');
-            $webpack = str_replace('{{ module }}', $loweName, $webpack);
-            file_put_contents($this->module_path("{$name}/webpack.mix.js"), $webpack);
-
             $package = file_get_contents(__DIR__ . '/stubs/package.stub');
             file_put_contents($this->module_path("{$name}/package.json"), $package);
 

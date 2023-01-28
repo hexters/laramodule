@@ -15,7 +15,7 @@ $ composer require hexters/laramodule
 ```
 
 
-### Autoloading
+## Autoloading
 By default the module classes are not loaded automatically. You can autoload your modules using `psr-4`. For example :
 ```json
 {
@@ -31,7 +31,38 @@ By default the module classes are not loaded automatically. You can autoload you
 ```
 * don't forget to run `composer dump-autoload` afterwards
 
-### Artisan
+## Managing assets
+
+Install node module pacakge
+```bash
+npm install -s @hexters/ladmin-vite-input
+```
+
+Open `vite.config.js` in your project and follow the instruction below.
+
+```js
+
+. . . 
+import ladminViteInputs from '@hexters/ladmin-vite-input'
+. . .
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: ladminViteInputs([
+                'resources/css/app.css',
+                'resources/js/app.js'
+            ]),
+            refresh: true,
+        }),
+    ],
+});
+
+
+```
+
+
+## Artisan
 ```bash
 php artisan module:make Blog
 php artisan module:make-cast BlogCast --module=Blog
