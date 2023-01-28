@@ -2,6 +2,13 @@
     "name": "hexters/laramodule",
     "type": "library",
     "license": "MIT",
+    "description": "Laramodule is an HMVC pattern for the Laravel framework.",
+    "keywords": [
+        "Laravel",
+        "Laravel Module",
+        "Laravel Modulear",
+        "Laravel HMVC"
+    ],
     "authors": [
         {
             "name": "Asep",
