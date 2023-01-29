@@ -1,5 +1,9 @@
 # Laravel Module HMVC
 
+[![Latest Stable Version](https://poser.pugx.org/hexters/laramodule/v/stable)](https://packagist.org/packages/hexters/laramodule)
+[![Total Downloads](https://poser.pugx.org/hexters/laramodule/downloads)](https://packagist.org/packages/hexters/laramodule)
+[![License](https://poser.pugx.org/hexters/laramodule/license)](https://packagist.org/packages/hexters/laramodule)
+
 Laramodule is a package for the Laravel framework that allows developers to organize and manage modules within their web application. It is designed to make it easy to create, manage and reuse modular components within a Laravel application.
 
 With Laramodule, developers can create new modules that can be easily added to their application, and can also manage existing modules. It also allows developers to keep their code organized and maintainable, by separating different functionality into different modules. Each module can include its own controllers, views, routes, and other components.
