@@ -1,4 +1,4 @@
-# Laravel Module HMVC
+# Laravel HMVC
 
 [![Latest Stable Version](https://poser.pugx.org/hexters/laramodule/v/stable)](https://packagist.org/packages/hexters/laramodule)
 [![Total Downloads](https://poser.pugx.org/hexters/laramodule/downloads)](https://packagist.org/packages/hexters/laramodule)
