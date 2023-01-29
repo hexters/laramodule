@@ -93,3 +93,8 @@ php artisan module:publish Blog
 ```
 
 Happy coding ☕
+
+# Donate
+If this Laravel package was useful to you, please consider donating some coffee ☕☕☕☕
+
+- Patreon : [**hexters**](https://www.patreon.com/hexters)
