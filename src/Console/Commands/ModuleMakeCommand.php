@@ -2,9 +2,11 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
+use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class ModuleMakeCommand extends Command
 {
@@ -14,7 +16,9 @@ class ModuleMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'module:make {name}';
+    protected $signature = 'module:make 
+                            {name : Name of your module}
+                            {--command= : Run the command after successfully creating the module}';
 
     /**
      * The console command description.
@@ -105,7 +109,6 @@ class ModuleMakeCommand extends Command
                         $content = Str::replace('{{ module }}', $name, $routeFile);
                         $content = Str::replace('{{ moduleLower }}', Str::lower($name), $content);
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
-                        
                     }
                 }
 
@@ -164,9 +167,13 @@ class ModuleMakeCommand extends Command
             ));
 
             file_put_contents($this->module_path("{$name}/.gitignore"), "/node_modules\npackage-lock.json\nyarn.lock");
-            
+
             $package = file_get_contents(__DIR__ . '/stubs/package.stub');
             file_put_contents($this->module_path("{$name}/package.json"), $package);
+
+            $this->runOtherCommand(
+                $this->option('command')
+            );
 
             $this->info("Module {$name} created successfully.");
             $this->line('');
@@ -177,6 +184,17 @@ class ModuleMakeCommand extends Command
         }
 
         $this->error('Module already exists!');
+    }
+
+    protected function runOtherCommand($command)
+    {
+        if ($command) {
+            try {
+                $this->call($command);
+            } catch (Exception $e) {
+                Log::error([__CLASS__, $e->getMessage()]);
+            }
+        }
     }
 
     protected function getBladeStub($stub)

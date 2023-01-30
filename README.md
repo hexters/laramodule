@@ -68,7 +68,7 @@ export default defineConfig({
 
 ## Artisan
 ```bash
-php artisan module:make Blog
+php artisan module:make Blog --command=OPTIONAL
 php artisan module:make-cast BlogCast --module=Blog
 php artisan module:make-channel BlogChannel --module=Blog
 php artisan module:make-command BlogCommand --module=Blog
