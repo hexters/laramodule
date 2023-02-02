@@ -27,3 +27,17 @@ if (!function_exists('module_load_all')) {
         return $modules;
     }
 }
+
+if (!function_exists('module_all')) {
+    function module_all()
+    {
+        $modules = [];
+        foreach (scandir(base_path('Modules')) as $module) {
+            if (! in_array($module, ['.', '..'])) {
+                $modules[] = $module;
+            }
+        }
+
+        return $modules;
+    }
+}
