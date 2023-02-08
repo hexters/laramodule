@@ -190,7 +190,9 @@ class ModuleMakeCommand extends Command
     {
         if ($command) {
             try {
-                $this->call($command);
+                $this->call($command, [
+                    '--module' => $this->getModuleNameInput()
+                ]);
             } catch (Exception $e) {
                 Log::error([__CLASS__, $e->getMessage()]);
             }
