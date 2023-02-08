@@ -194,7 +194,7 @@ class ModuleMakeCommand extends Command
                     '--module' => $this->getModuleNameInput()
                 ]);
             } catch (Exception $e) {
-                Log::error([__CLASS__, $e->getMessage()]);
+                Log::error([__CLASS__, "Coomand {$command} : " . $e->getMessage()]);
             }
         }
     }
