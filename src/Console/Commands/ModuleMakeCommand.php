@@ -189,9 +189,10 @@ class ModuleMakeCommand extends Command
     protected function runOtherCommand($command)
     {
         if ($command) {
+            $name = Str::of($this->argument('name'))->camel();
             try {
                 $this->call($command, [
-                    '--module' => $this->getModuleNameInput()
+                    '--module' => $name
                 ]);
             } catch (Exception $e) {
                 Log::error([__CLASS__, "Error in command {$command} : " . $e->getMessage()]);
