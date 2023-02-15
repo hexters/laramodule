@@ -70,7 +70,6 @@ class ModuleMakeCommand extends Command
                 'en'
             ],
             'Resources' => [
-                'sass',
                 'css',
                 'js',
                 'views',

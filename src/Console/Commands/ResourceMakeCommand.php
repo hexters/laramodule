@@ -3,9 +3,10 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\ResourceMakeCommand as ConsoleResourceMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class ResourceMakeCommand extends GeneratorCommand
+class ResourceMakeCommand extends ConsoleResourceMakeCommand
 {
 
     use BaseCommandTrait;
@@ -25,75 +26,7 @@ class ResourceMakeCommand extends GeneratorCommand
      * @var string|null
      */
     protected static $defaultName = 'module:make-resource';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new resource';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Resource';
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-
-        if(is_null($this->option('module'))) {
-            $this->error('Option --module= is required!');
-            exit();
-        }
-        
-        if ($this->collection()) {
-            $this->type = 'Resource collection';
-        }
-
-        parent::handle();
-    }
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return $this->collection()
-                    ? $this->resolveStubPath('/stubs/resource-collection.stub')
-                    : $this->resolveStubPath('/stubs/resource.stub');
-    }
-
-    /**
-     * Determine if the command is generating a resource collection.
-     *
-     * @return bool
-     */
-    protected function collection()
-    {
-        return $this->option('collection') ||
-               str_ends_with($this->argument('name'), 'Collection');
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return __DIR__ . $stub;
-    }
-
+    
     /**
      * Get the default namespace for the class.
      *
@@ -112,9 +45,9 @@ class ResourceMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

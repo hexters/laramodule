@@ -3,9 +3,10 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\CastMakeCommand as ConsoleCastMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class CastMakeCommand extends GeneratorCommand
+class CastMakeCommand extends ConsoleCastMakeCommand
 {
 
     use BaseCommandTrait;
@@ -26,41 +27,7 @@ class CastMakeCommand extends GeneratorCommand
      */
     protected static $defaultName = 'module:make-cast';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new custom Eloquent cast class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Cast';
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return $this->resolveStubPath('/stubs/cast.stub');
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return __DIR__ . $stub;
-    }
-
+    
     /**
      * Get the default namespace for the class.
      *
@@ -79,8 +46,9 @@ class CastMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

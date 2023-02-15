@@ -28,6 +28,9 @@ class LaramoduleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        
+
     }
 
 
@@ -36,7 +39,7 @@ class LaramoduleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function get_all_module_informations()
+    protected function get_all_module_informations(): array
     {
         $informations = [];
 

@@ -191,7 +191,7 @@ class PublishPackageModuleCommand extends Command
 
         file_put_contents($moduleDirectory . '/src/' . $this->providerName($package) . '.php', $this->contentProvider($package));
         file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . 'composer.json', $this->composer_json);
-        file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . '.gitignore', 'vendor/\n*.lock');
+        file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . '.gitignore', 'vendor/' . PHP_EOL . '*.lock');
         file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . 'README.md', $this->contentReadme($package));
 
 

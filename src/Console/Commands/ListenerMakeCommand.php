@@ -4,10 +4,11 @@ namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\ListenerMakeCommand as ConsoleListenerMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ListenerMakeCommand extends GeneratorCommand
+class ListenerMakeCommand extends ConsoleListenerMakeCommand
 {
     use CreatesMatchingTest, BaseCommandTrait;
 
@@ -26,77 +27,7 @@ class ListenerMakeCommand extends GeneratorCommand
      * @var string|null
      */
     protected static $defaultName = 'module:make-listener';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new event listener class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Listener';
-
-    /**
-     * Build the class with the given name.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function buildClass($name)
-    {
-        $event = $this->option('event');
-
-        if (! Str::startsWith($event, [
-            $this->laravel->getNamespace(),
-            'Illuminate',
-            '\\',
-        ])) {
-            $event = $this->overiteNamespace('\\Events\\'.str_replace('/', '\\', $event));
-        }
-
-        $stub = str_replace(
-            ['DummyEvent', '{{ event }}'], class_basename($event), parent::buildClass($name)
-        );
-
-        return str_replace(
-            ['DummyFullEvent', '{{ eventNamespace }}'], trim($event, '\\'), $stub
-        );
-    }
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        if ($this->option('queued')) {
-            return $this->option('event')
-                        ? __DIR__.'/stubs/listener-queued.stub'
-                        : __DIR__.'/stubs/listener-queued-duck.stub';
-        }
-
-        return $this->option('event')
-                    ? __DIR__.'/stubs/listener.stub'
-                    : __DIR__.'/stubs/listener-duck.stub';
-    }
-
-    /**
-     * Determine if the class already exists.
-     *
-     * @param  string  $rawName
-     * @return bool
-     */
-    protected function alreadyExists($rawName)
-    {
-        return class_exists($rawName);
-    }
-
+    
     /**
      * Get the default namespace for the class.
      *
@@ -115,12 +46,9 @@ class ListenerMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['event', 'e', InputOption::VALUE_OPTIONAL, 'The event class being listened for'],
-
-            ['queued', null, InputOption::VALUE_NONE, 'Indicates the event listener should be queued'],
-
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

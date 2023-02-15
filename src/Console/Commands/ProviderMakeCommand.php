@@ -4,12 +4,13 @@ namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\ProviderMakeCommand as ConsoleProviderMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class ProviderMakeCommand extends GeneratorCommand
+class ProviderMakeCommand extends ConsoleProviderMakeCommand
 {
     use BaseCommandTrait;
-    
+
     /**
      * The console command name.
      *
@@ -77,7 +78,7 @@ class ProviderMakeCommand extends GeneratorCommand
         $class = parent::buildClass($name);
         $moduleName = Str::lower($this->getModuleNameInput());
         $moduleNameOriginal = $this->getModuleNameInput();
-        
+
         if ($this->option('type') !== false) {
             $class = str_replace(['DummyView', '{{ module }}'], $moduleName, $class);
             $class = str_replace(['DummyView', '{{ moduleUpper }}'], $moduleNameOriginal, $class);
@@ -104,9 +105,12 @@ class ProviderMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the provider stub file to use.'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [
+                ['type', null, InputOption::VALUE_REQUIRED, 'Manually specify the provider stub file to use.'],
+                ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
+            ]
+        );
     }
 }

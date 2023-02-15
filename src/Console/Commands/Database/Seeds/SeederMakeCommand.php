@@ -4,9 +4,10 @@ namespace Hexters\Laramodule\Console\Commands\Database\Seeds;
 
 use Hexters\Laramodule\Console\Commands\BaseCommandTrait;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Database\Console\Seeds\SeederMakeCommand as SeedsSeederMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class SeederMakeCommand extends GeneratorCommand
+class SeederMakeCommand extends SeedsSeederMakeCommand
 {
 
     use BaseCommandTrait;
@@ -71,8 +72,8 @@ class SeederMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
-        
-        if(is_null($this->option('module'))) {
+
+        if (is_null($this->option('module'))) {
             $this->error('Option --module= is required!');
             exit();
         }
@@ -100,7 +101,7 @@ class SeederMakeCommand extends GeneratorCommand
     {
         return __DIR__ . $stub;
     }
-    
+
     /**
      * Get the default namespace for the class.
      *
@@ -119,8 +120,9 @@ class SeederMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

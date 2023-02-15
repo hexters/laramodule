@@ -3,11 +3,12 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\ComponentMakeCommand as ConsoleComponentMakeCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ComponentMakeCommand extends GeneratorCommand
+class ComponentMakeCommand extends ConsoleComponentMakeCommand
 {
 
     use BaseCommandTrait;
@@ -50,24 +51,24 @@ class ComponentMakeCommand extends GeneratorCommand
     public function handle()
     {
 
-        if(is_null($this->option('module'))) {
+        if (is_null($this->option('module'))) {
             $this->error('Option --module= is required!');
             exit();
         }
-        
+
         if ($this->option('view')) {
             $this->writeView(function () {
-                $this->info($this->type.' created successfully.');
+                $this->info($this->type . ' created successfully.');
             });
 
             return;
         }
 
-        if (parent::handle() === false && ! $this->option('force')) {
+        if (parent::handle() === false && !$this->option('force')) {
             return false;
         }
 
-        if (! $this->option('inline')) {
+        if (!$this->option('inline')) {
             $this->writeView();
         }
     }
@@ -94,23 +95,17 @@ class ComponentMakeCommand extends GeneratorCommand
     protected function writeView($onSuccess = null)
     {
         $path = $this->viewPath(
-            str_replace('.', '/', 'components.'.$this->getView()).'.blade.php'
+            str_replace('.', '/', 'components.' . $this->getView()) . '.blade.php'
         );
 
-        if (! $this->files->isDirectory(dirname($path))) {
+        if (!$this->files->isDirectory(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
         }
-
-        if ($this->files->exists($path) && ! $this->option('force')) {
-            $this->error('View already exists!');
-
-            return;
-        }
-
+        
         file_put_contents(
             $path,
             '<div>
-    <!-- '.Inspiring::quote().' -->
+    <!-- ' . Inspiring::quote() . ' -->
 </div>'
         );
 
@@ -130,16 +125,16 @@ class ComponentMakeCommand extends GeneratorCommand
         if ($this->option('inline')) {
             return str_replace(
                 ['DummyView', '{{ view }}'],
-                "<<<'blade'\n<div>\n    <!-- ".Inspiring::quote()." -->\n</div>\nblade",
+                "<<<'blade'\n<div>\n    <!-- " . Inspiring::quote() . " -->\n</div>\nblade",
                 parent::buildClass($name)
             );
         }
 
         $moduleName = Str::lower($this->getModuleNameInput());
-        
+
         return str_replace(
             ['DummyView', '{{ view }}'],
-            'view(\'' . $moduleName . '::components.'.$this->getView().'\')',
+            'view(\'' . $moduleName . '::components.' . $this->getView() . '\')',
             parent::buildClass($name)
         );
     }
@@ -199,11 +194,9 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['force', null, InputOption::VALUE_NONE, 'Create the class even if the component already exists'],
-            ['inline', null, InputOption::VALUE_NONE, 'Create a component that renders an inline view'],
-            ['view', null, InputOption::VALUE_NONE, 'Create an anonymous component with only a view'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

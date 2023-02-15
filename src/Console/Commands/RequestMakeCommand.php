@@ -3,9 +3,10 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\RequestMakeCommand as ConsoleRequestMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class RequestMakeCommand extends GeneratorCommand
+class RequestMakeCommand extends ConsoleRequestMakeCommand
 {
     use BaseCommandTrait;
     
@@ -24,42 +25,7 @@ class RequestMakeCommand extends GeneratorCommand
      * @var string|null
      */
     protected static $defaultName = 'module:make-request';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new form request class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Request';
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return $this->resolveStubPath('/stubs/request.stub');
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return __DIR__ . $stub;
-    }
-
+    
     /**
      * Get the default namespace for the class.
      *
@@ -78,8 +44,9 @@ class RequestMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

@@ -5,9 +5,10 @@ namespace Hexters\Laramodule\Console\Commands\Routing;
 use Hexters\Laramodule\Console\Commands\BaseCommandTrait;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Routing\Console\MiddlewareMakeCommand as ConsoleMiddlewareMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class MiddlewareMakeCommand extends GeneratorCommand
+class MiddlewareMakeCommand extends ConsoleMiddlewareMakeCommand
 {
     use CreatesMatchingTest, BaseCommandTrait;
 
@@ -27,41 +28,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
      */
     protected static $defaultName = 'module:make-middleware';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new middleware class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Middleware';
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return $this->resolveStubPath('/stubs/middleware.stub');
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return __DIR__ . $stub;
-    }
-
+    
     /**
      * Get the default namespace for the class.
      *
@@ -80,8 +47,9 @@ class MiddlewareMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

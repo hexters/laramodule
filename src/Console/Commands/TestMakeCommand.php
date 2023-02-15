@@ -3,10 +3,11 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\TestMakeCommand as ConsoleTestMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class TestMakeCommand extends GeneratorCommand
+class TestMakeCommand extends ConsoleTestMakeCommand
 {
     use BaseCommandTrait;
     /**
@@ -31,39 +32,7 @@ class TestMakeCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Create a new test class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Test';
     
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        $suffix = $this->option('unit') ? '.unit.stub' : '.stub';
-
-        return $this->option('pest')
-            ? $this->resolveStubPath('/stubs/pest' . $suffix)
-            : $this->resolveStubPath('/stubs/test' . $suffix);
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return __DIR__ . $stub;
-    }
-
     /**
      * Get the default namespace for the class.
      *
@@ -86,10 +55,9 @@ class TestMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['unit', 'u', InputOption::VALUE_NONE, 'Create a unit test.'],
-            ['pest', 'p', InputOption::VALUE_NONE, 'Create a Pest test.'],
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

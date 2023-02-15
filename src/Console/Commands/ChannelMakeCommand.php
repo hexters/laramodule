@@ -3,9 +3,10 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\ChannelMakeCommand as ConsoleChannelMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class ChannelMakeCommand extends GeneratorCommand
+class ChannelMakeCommand extends ConsoleChannelMakeCommand
 {
 
     use BaseCommandTrait;
@@ -27,45 +28,6 @@ class ChannelMakeCommand extends GeneratorCommand
     protected static $defaultName = 'module:make-channel';
 
     /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new channel class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Channel';
-
-    /**
-     * Build the class with the given name.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function buildClass($name)
-    {
-        return str_replace(
-            ['DummyUser', '{{ userModel }}'],
-            class_basename($this->userProviderModel()),
-            parent::buildClass($name)
-        );
-    }
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return __DIR__ . '/stubs/channel.stub';
-    }
-
-    /**
      * Get the default namespace for the class.
      *
      * @param  string  $rootNamespace
@@ -83,8 +45,9 @@ class ChannelMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }

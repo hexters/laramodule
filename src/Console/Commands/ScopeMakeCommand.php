@@ -3,9 +3,10 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Console\ScopeMakeCommand as ConsoleScopeMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class ScopeMakeCommand extends GeneratorCommand
+class ScopeMakeCommand extends ConsoleScopeMakeCommand
 {
 
     use BaseCommandTrait;
@@ -25,42 +26,7 @@ class ScopeMakeCommand extends GeneratorCommand
      * @var string|null
      */
     protected static $defaultName = 'module:make-scope';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create a new scope class in Module';
-
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Scope';
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return $this->resolveStubPath('/stubs/scope.stub');
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return __DIR__ . $stub;
-    }
-
+    
     /**
      * Get the default namespace for the class.
      *
@@ -79,8 +45,9 @@ class ScopeMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-            ['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']
-        ];
+        return array_merge(
+            parent::getOptions(),
+            [['module', 'o', InputOption::VALUE_REQUIRED, 'Add existing module name.']]
+        );
     }
 }
