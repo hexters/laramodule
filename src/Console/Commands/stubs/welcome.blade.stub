@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>{{ module }}</title>
 
     @vite([
-    'Modules/{{ module }}/Resources/js/{{ moduleLower }}.js',
-    'Modules/{{ module }}/Resources/css/{{ moduleLower }}.css',
-    'Modules/{{ module }}/Resources/sass/{{ moduleLower }}.scss'
+        'Modules/{{ module }}/Resources/js/{{ moduleLower }}.js',
+        'Modules/{{ module }}/Resources/css/{{ moduleLower }}.css',
     ])
 
 </head>
