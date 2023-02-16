@@ -45,7 +45,7 @@ mkdir Modules
 
 Install node module pacakge
 ```bash
-npm install -s @hexters/ladmin-vite-input
+npm install -D @hexters/ladmin-vite-input
 ```
 
 Open `vite.config.js` in your project and follow the instruction below.
