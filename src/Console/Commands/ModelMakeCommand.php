@@ -3,7 +3,6 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\ModelMakeCommand as ConsoleModelMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,7 +26,177 @@ class ModelMakeCommand extends ConsoleModelMakeCommand
      * @var string|null
      */
     protected static $defaultName = 'module:make-model';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new Eloquent model class in Module';
+
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Model';
+
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        if (is_null($this->option('module'))) {
+            $this->error('Option --module= is required!');
+            exit();
+        }
+
+        if (parent::handle() === false && !$this->option('force')) {
+            return false;
+        }
+
+        if ($this->option('all')) {
+            $this->input->setOption('factory', true);
+            $this->input->setOption('seed', true);
+            $this->input->setOption('migration', true);
+            $this->input->setOption('controller', true);
+            $this->input->setOption('policy', true);
+            $this->input->setOption('resource', true);
+        }
+
+        if ($this->option('factory')) {
+            $this->createFactory();
+        }
+
+        if ($this->option('migration')) {
+            $this->createMigration();
+        }
+
+        if ($this->option('seed')) {
+            $this->createSeeder();
+        }
+
+        if ($this->option('controller') || $this->option('resource') || $this->option('api')) {
+            $this->createController();
+        }
+
+        if ($this->option('policy')) {
+            $this->createPolicy();
+        }
+    }
     
+    /**
+     * Create a model factory for the model.
+     *
+     * @return void
+     */
+    protected function createFactory()
+    {
+        $factory = Str::studly($this->argument('name'));
+
+        $this->call('module:make-factory', [
+            'name' => "{$factory}Factory",
+            '--model' => $this->qualifyClass($this->getNameInput()),
+            '--module' => $this->getModuleNameInput()
+        ]);
+    }
+
+    /**
+     * Create a migration file for the model.
+     *
+     * @return void
+     */
+    protected function createMigration()
+    {
+        $table = Str::snake(Str::pluralStudly(class_basename($this->argument('name'))));
+
+        if ($this->option('pivot')) {
+            $table = Str::singular($table);
+        }
+
+        $this->call('module:make-migration', [
+            'name' => "create_{$table}_table",
+            '--create' => $table,
+            '--module' => $this->getModuleNameInput()
+        ]);
+    }
+
+    /**
+     * Create a seeder file for the model.
+     *
+     * @return void
+     */
+    protected function createSeeder()
+    {
+        $seeder = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('module:make-seeder', [
+            'name' => "{$seeder}Seeder",
+            '--module' => $this->getModuleNameInput()
+        ]);
+    }
+
+    /**
+     * Create a controller for the model.
+     *
+     * @return void
+     */
+    protected function createController()
+    {
+        $controller = Str::studly(class_basename($this->argument('name')));
+
+        $modelName = $this->qualifyClass($this->getNameInput());
+
+        $this->call('module:make-controller', array_filter([
+            'name' => "{$controller}Controller",
+            '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
+            '--api' => $this->option('api'),
+            '--requests' => $this->option('requests') || $this->option('all'),
+            '--module' => $this->getModuleNameInput()
+        ]));
+    }
+
+    /**
+     * Create a policy file for the model.
+     *
+     * @return void
+     */
+    protected function createPolicy()
+    {
+        $policy = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('module:make-policy', [
+            'name' => "{$policy}Policy",
+            '--model' => $this->qualifyClass($this->getNameInput()),
+            '--module' => $this->getModuleNameInput()
+        ]);
+    }
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        return $this->option('pivot')
+            ? $this->resolveStubPath('/stubs/model.pivot.stub')
+            : $this->resolveStubPath('/stubs/model.stub');
+    }
+
+    /**
+     * Resolve the fully-qualified path to the stub.
+     *
+     * @param  string  $stub
+     * @return string
+     */
+    protected function resolveStubPath($stub)
+    {
+        return __DIR__ . $stub;
+    }
+
     /**
      * Get the default namespace for the class.
      *
@@ -39,6 +208,11 @@ class ModelMakeCommand extends ConsoleModelMakeCommand
         return is_dir(app_path('Models')) ? $this->overiteNamespace('\Models') : $this->overiteNamespace('');
     }
 
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
     /**
      * Get the console command options.
      *
