@@ -27,9 +27,13 @@
                     php artisan module:publish {{ module }}
                 </code>
             </p>
-            <p>
+            <p class="mb-4">
                 If you want to sell it, you can use an alternative PHP package license sales Saas website at
                 <a href="https://ppmarket.org" target="_blank" class="underline">https://ppmarket.org</a>.
+            </p>
+            <h3 class="text-lg font-bold mb-4">Donate</h3>
+            <p>
+                If this Laravel package was useful to you, please consider donating to development <a href="https://www.patreon.com/hexters" target="_blank" class="font-bold underline">Patreon</a>
             </p>
         </div>
     </div>
