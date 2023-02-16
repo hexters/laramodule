@@ -33,6 +33,12 @@ By default the module classes are not loaded automatically. You can autoload you
   }
 }
 ```
+And make `Modules` directory in your root project folder
+
+```bash
+mkdir Modules
+```
+
 * don't forget to run `composer dump-autoload` afterwards
 
 ## Managing assets

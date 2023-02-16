@@ -168,7 +168,7 @@ class ModuleMakeCommand extends Command
             file_put_contents($this->module_path("{$name}/.gitignore"), "/node_modules\npackage-lock.json\nyarn.lock");
 
             $package = file_get_contents(__DIR__ . '/stubs/package.stub');
-            $package = str_replace('{{ module }}', $name, $package);
+            $package = str_replace('{{ module }}', strtolower($name), $package);
             file_put_contents($this->module_path("{$name}/package.json"), $package);
 
             $this->runOtherCommand(
