@@ -3,7 +3,6 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Support\Str;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\ProviderMakeCommand as ConsoleProviderMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 

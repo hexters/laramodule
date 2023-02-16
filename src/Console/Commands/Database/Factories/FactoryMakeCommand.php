@@ -3,7 +3,6 @@
 namespace Hexters\Laramodule\Console\Commands\Database\Factories;
 
 use Hexters\Laramodule\Console\Commands\BaseCommandTrait;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Console\Factories\FactoryMakeCommand as FactoriesFactoryMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;

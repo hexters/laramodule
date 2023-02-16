@@ -4,7 +4,6 @@ namespace Hexters\Laramodule\Console\Commands\Routing;
 
 use Hexters\Laramodule\Console\Commands\BaseCommandTrait;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Routing\Console\MiddlewareMakeCommand as ConsoleMiddlewareMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 

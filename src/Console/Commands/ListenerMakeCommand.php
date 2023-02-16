@@ -3,7 +3,6 @@
 namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\ListenerMakeCommand as ConsoleListenerMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;

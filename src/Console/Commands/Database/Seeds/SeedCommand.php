@@ -2,6 +2,7 @@
 
 namespace Hexters\Laramodule\Console\Commands\Database\Seeds;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
@@ -120,7 +121,7 @@ class SeedCommand extends Command
     protected function getModuleNameInput()
     {
         $name = ltrim(rtrim($this->argument('module'), '/'), '/');
-        return ucwords($name);
+        return Str::studly($name);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\TestMakeCommand as ConsoleTestMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;

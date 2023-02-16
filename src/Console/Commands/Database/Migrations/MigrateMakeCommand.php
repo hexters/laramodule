@@ -66,7 +66,7 @@ class MigrateMakeCommand extends Command
     protected function getModuleNameInput()
     {
         $name = ltrim(rtrim($this->option('module'), '/'), '/');
-        return ucwords($name);
+        return Str::studly($name);
     }
 
     /**

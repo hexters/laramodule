@@ -2,7 +2,6 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\ResourceMakeCommand as ConsoleResourceMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 

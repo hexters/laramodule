@@ -42,7 +42,7 @@ class PublishPackageModuleCommand extends Command
             exit;
         }
 
-        $currentUser = ucwords(get_current_user());
+        $currentUser = Str::studly(get_current_user());
         $packageName = "{$currentUser}/$package";
         $email = env('MAIL_FROM_ADDRESS', 'example@mail.com');
         $authorDefault = "{$currentUser} <$email>";
@@ -56,7 +56,7 @@ class PublishPackageModuleCommand extends Command
 
         $namespace = [];
         foreach (explode('/', $this->name) as $name) {
-            $namespace[] = ucwords(Str::of($name)->camel());
+            $namespace[] = Str::studly($name);
         }
         $this->namespace = implode('\\', $namespace) . '\\';
 
@@ -96,7 +96,7 @@ class PublishPackageModuleCommand extends Command
             ]
         ];
 
-        $this->provider = $this->namespace . ucwords($package) . "ServiceProvider";
+        $this->provider = $this->namespace . Str::studly($package) . "ServiceProvider";
         $composer['extra'] = [
             'laravel' => [
                 'providers' => [
@@ -224,7 +224,7 @@ class PublishPackageModuleCommand extends Command
      */
     protected function providerName($package)
     {
-        return ucwords($package) . "ServiceProvider";
+        return Str::studly($package) . "ServiceProvider";
     }
 
     /**
@@ -263,7 +263,7 @@ class PublishPackageModuleCommand extends Command
             '{{ moduleName }}',
             '{{ name }}'
         ], [
-            ucwords($package),
+            Str::studly($package),
             $this->name,
             strtolower($package),
         ], $stub);

@@ -45,7 +45,7 @@ class ModuleMakeCommand extends Command
     protected function getModuleNameInput()
     {
         $name = ltrim(rtrim($this->option('module'), '/'), '/');
-        return ucwords($name);
+        return Str::studly($name);
     }
 
     /**
@@ -225,8 +225,7 @@ class ModuleMakeCommand extends Command
 
     protected function appjson()
     {
-        $name = Str::of($this->argument('name'))->camel();
-        $name = ucwords($name);
+        $name = Str::studly($this->argument('name'));
 
         return [
             'name' => strtolower($name),

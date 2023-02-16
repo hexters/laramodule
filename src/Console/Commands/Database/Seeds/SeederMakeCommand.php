@@ -3,7 +3,6 @@
 namespace Hexters\Laramodule\Console\Commands\Database\Seeds;
 
 use Hexters\Laramodule\Console\Commands\BaseCommandTrait;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Console\Seeds\SeederMakeCommand as SeedsSeederMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 

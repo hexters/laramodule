@@ -4,7 +4,6 @@ namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\MailMakeCommand as ConsoleMailMakeCommand;
 use Symfony\Component\Console\Input\InputOption;
 

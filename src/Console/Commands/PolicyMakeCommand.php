@@ -2,10 +2,7 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\PolicyMakeCommand as ConsolePolicyMakeCommand;
-use Illuminate\Support\Str;
-use LogicException;
 use Symfony\Component\Console\Input\InputOption;
 
 class PolicyMakeCommand extends ConsolePolicyMakeCommand

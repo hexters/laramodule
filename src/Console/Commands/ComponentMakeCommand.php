@@ -2,7 +2,6 @@
 
 namespace Hexters\Laramodule\Console\Commands;
 
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Foundation\Console\ComponentMakeCommand as ConsoleComponentMakeCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
