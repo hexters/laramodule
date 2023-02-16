@@ -79,8 +79,7 @@ class ModuleMakeCommand extends Command
             'Providers' => []
         ];
 
-        $name = Str::of($this->argument('name'))->camel();
-        $name = ucwords($name);
+        $name = Str::studly($this->argument('name'));
         $loweName = strtolower($name);
 
         if (!is_dir($this->module_path($name))) {
