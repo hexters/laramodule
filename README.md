@@ -65,6 +65,15 @@ export default defineConfig({
 
 ```
 
+Install node dependencies in the modules folder
+```bash
+cd Modules/Blog && npm install
+```
+
+Back to the root project and run vite
+```bash
+npm run dev
+```
 
 ## Artisan
 ```bash
