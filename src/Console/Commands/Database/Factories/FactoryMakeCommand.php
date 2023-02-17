@@ -38,31 +38,19 @@ class FactoryMakeCommand extends FactoriesFactoryMakeCommand
     protected function buildClass($name)
     {
         $factory = class_basename(Str::ucfirst(str_replace('Factory', '', $name)));
-
-        $namespaceModel = $this->option('model')
-            ? $this->qualifyModel($this->option('model'))
-            : $this->qualifyModel($this->guessModelName($name));
-
-        $model = class_basename($namespaceModel);
-
+        
         $namespace = $this->overiteNamespace('\\Databases\\Factories');
-
-
-
+        
         $replace = [
+            'Database\Factories\Databases\Factories' => $namespace,
             '{{ factoryNamespace }}' => $namespace,
-            'NamespacedDummyModel' => $namespaceModel,
-            '{{ namespacedModel }}' => $namespaceModel,
-            '{{namespacedModel}}' => $namespaceModel,
-            'DummyModel' => $model,
-            '{{ model }}' => $model,
-            '{{model}}' => $model,
+            '{{factoryNamespace}}' => $namespace,
             '{{ module }}' => $this->getModuleNameInput(),
             '{{module}}' => $this->getModuleNameInput(),
             '{{ factory }}' => $factory,
             '{{factory}}' => $factory,
         ];
-
+        
         return str_replace(
             array_keys($replace),
             array_values($replace),
