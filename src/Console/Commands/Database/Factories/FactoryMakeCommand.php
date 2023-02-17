@@ -45,8 +45,10 @@ class FactoryMakeCommand extends FactoriesFactoryMakeCommand
 
         $model = class_basename($namespaceModel);
 
-        $namespace = $this->getDefaultNamespace('Databases\\Factories');
-        
+        $namespace = $this->overiteNamespace('\\Databases\\Factories');
+
+
+
         $replace = [
             '{{ factoryNamespace }}' => $namespace,
             'NamespacedDummyModel' => $namespaceModel,
@@ -55,6 +57,8 @@ class FactoryMakeCommand extends FactoriesFactoryMakeCommand
             'DummyModel' => $model,
             '{{ model }}' => $model,
             '{{model}}' => $model,
+            '{{ module }}' => $this->getModuleNameInput(),
+            '{{module}}' => $this->getModuleNameInput(),
             '{{ factory }}' => $factory,
             '{{factory}}' => $factory,
         ];
