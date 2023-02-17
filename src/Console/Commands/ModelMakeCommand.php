@@ -86,7 +86,7 @@ class ModelMakeCommand extends ConsoleModelMakeCommand
             $this->createPolicy();
         }
     }
-    
+
     /**
      * Create a model factory for the model.
      *
@@ -101,6 +101,20 @@ class ModelMakeCommand extends ConsoleModelMakeCommand
             '--model' => $this->qualifyClass($this->getNameInput()),
             '--module' => $this->getModuleNameInput()
         ]);
+    }
+
+    /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function buildClass($name)
+    {
+        $class = parent::buildClass($name);
+        $class = str_replace('{{ module }}', $this->getModuleNameInput(), $class);
+
+        return $class;
     }
 
     /**
