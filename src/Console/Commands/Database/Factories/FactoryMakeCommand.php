@@ -17,7 +17,7 @@ class FactoryMakeCommand extends FactoriesFactoryMakeCommand
      * @var string
      */
     protected $name = 'module:make-factory';
-    
+
     /**
      * Get the default namespace for the class.
      *
@@ -30,28 +30,51 @@ class FactoryMakeCommand extends FactoriesFactoryMakeCommand
     }
 
     /**
-     * Guess the model name from the Factory name or return a default model name.
+     * Build the class with the given name.
      *
      * @param  string  $name
      * @return string
      */
-    protected function guessModelName($name)
+    protected function buildClass($name)
     {
-        if (str_ends_with($name, 'Factory')) {
-            $name = substr($name, 0, -7);
-        }
+        $factory = class_basename(Str::ucfirst(str_replace('Factory', '', $name)));
 
-        $modelName = $this->qualifyModel(Str::after($name, $this->rootNamespace()));
+        $namespaceModel = $this->option('model')
+            ? $this->qualifyModel($this->option('model'))
+            : $this->qualifyModel($this->guessModelName($name));
 
-        if (class_exists($modelName)) {
-            return $modelName;
-        }
+        $model = class_basename($namespaceModel);
 
-        if (is_dir(app_path('Models/'))) {
-            return $this->rootNamespace() . 'Models\Model';
-        }
+        $namespace = $this->getDefaultNamespace('Databases\\Factories');
+        
+        $replace = [
+            '{{ factoryNamespace }}' => $namespace,
+            'NamespacedDummyModel' => $namespaceModel,
+            '{{ namespacedModel }}' => $namespaceModel,
+            '{{namespacedModel}}' => $namespaceModel,
+            'DummyModel' => $model,
+            '{{ model }}' => $model,
+            '{{model}}' => $model,
+            '{{ factory }}' => $factory,
+            '{{factory}}' => $factory,
+        ];
 
-        return $this->rootNamespace() . 'Model';
+        return str_replace(
+            array_keys($replace),
+            array_values($replace),
+            parent::buildClass($name)
+        );
+    }
+
+    /**
+     * Resolve the fully-qualified path to the stub.
+     *
+     * @param  string  $stub
+     * @return string
+     */
+    protected function resolveStubPath($stub)
+    {
+        return __DIR__ . $stub;
     }
 
     /**

@@ -47,7 +47,7 @@ trait BaseCommandTrait
      */
     protected function getModuleNameInput()
     {
-        $name = ltrim(rtrim($this->option('module'), '/'), '/');
+        $name = trim($this->option('module'), '/');
         return Str::studly($name);
     }
 
@@ -58,8 +58,8 @@ trait BaseCommandTrait
      */
     public function handle()
     {
-        
-        if(is_null($this->option('module'))) {
+
+        if (is_null($this->option('module'))) {
             $this->error('Option --module= is required!');
             exit();
         }
