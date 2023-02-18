@@ -65,26 +65,6 @@ class ModelMakeCommand extends ConsoleModelMakeCommand
             $this->input->setOption('policy', true);
             $this->input->setOption('resource', true);
         }
-
-        if ($this->option('factory')) {
-            $this->createFactory();
-        }
-
-        if ($this->option('migration')) {
-            $this->createMigration();
-        }
-
-        if ($this->option('seed')) {
-            $this->createSeeder();
-        }
-
-        if ($this->option('controller') || $this->option('resource') || $this->option('api')) {
-            $this->createController();
-        }
-
-        if ($this->option('policy')) {
-            $this->createPolicy();
-        }
     }
 
     /**
