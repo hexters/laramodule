@@ -113,6 +113,10 @@ php artisan module:publish Blog
 
 Happy coding ☕
 
+# Inertia Support
+
+> For inertia support will be coming soon, stay tuned for updates.
+
 # Donate
 If this Laravel package was useful to you, please consider donating some coffee ☕☕☕☕
 
