@@ -117,6 +117,109 @@ Happy coding ☕
 
 > For inertia support will be coming soon, stay tuned for updates. And follow me in [@Hexters](https://twitter.com/hexters)
 
+
+Laramodule is already supported for integration with InertiaJs. Follow the official Inertia.js website to see the installation steps. [inertiajs.com](https://inertiajs.com)
+
+## Inertia with VueJs
+Follow the command below to create a module with inertia support.
+
+```bash
+php artisan module:make Blog --command=inertia:init-vue
+```
+
+You can also do this with an existing module, but remember that. The `route.php` file will be replaced by a new file.
+
+```bash
+php artisan inertia:init-vue --module=Blog
+```
+
+Create a new javascript file in your root project directory with name `inertia.js` and paste code below.
+```js
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
+
+const getPage = (name) => {
+
+    let names = (name).split('::');
+    let module = names.shift();
+    let page = names.pop();
+
+    const pages = import.meta.glob('./Modules/**/*.vue', { eager: true })
+    return pages[`./Modules/${module}/Resources/pages/${page}.vue`]
+}
+
+createInertiaApp({
+    resolve: getPage,
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .mount(el)
+    },
+})
+
+```
+
+Add `inertia.js` to `vite.config.js`
+
+```js
+. . . 
+
+export default defineConfig({
+    plugins: [
+        vue(),
+        laravel({
+            input: ladminViteInputs([
+                'resources/css/app.css',
+                'resources/js/app.js',
+
+                'inertia.js', // <--- add here
+
+            ]),
+            refresh: true,
+        }),
+    ],
+});
+```
+
+Open your `app.blade.php` and change vite load assets. 
+```html
+
+. . . 
+
+ <head>
+
+    @vite(['inertia.js', 'resources/css/app.css'])
+
+ </head>
+ 
+. . . 
+
+```
+
+## Tailwind Setup
+
+For Tailwindcss, you need a few changes in `tailwind.config.js`
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+
+    . . .
+
+    "./Modules/**/*.blade.php",
+    "./Modules/**/*.js",
+    "./Modules/**/*.vue", // if you use VueJs
+    "./Modules/**/*.jsx", // if you use React
+
+    . . .
+
+  ],
+  
+  . . . 
+
+```
+
 # Donate
 If this Laravel package was useful to you, please consider donating some coffee ☕☕☕☕
 
