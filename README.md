@@ -220,6 +220,8 @@ module.exports = {
 
 ```
 
+
+
 # Donate
 If this Laravel package was useful to you, please consider donating some coffee ☕☕☕☕
 
