@@ -115,7 +115,7 @@ Happy coding ☕
 
 # Inertia Support
 
-> For inertia support will be coming soon, stay tuned for updates.
+> For inertia support will be coming soon, stay tuned for updates. And follow me in [@Hexters](https://twitter.com/hexters)
 
 # Donate
 If this Laravel package was useful to you, please consider donating some coffee ☕☕☕☕
