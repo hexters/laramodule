@@ -17,7 +17,7 @@ use Hexters\Laramodule\Console\Commands\Database\Seeds\SeedCommand;
 use Hexters\Laramodule\Console\Commands\Database\Seeds\SeederMakeCommand;
 use Hexters\Laramodule\Console\Commands\EventMakeCommand;
 use Hexters\Laramodule\Console\Commands\ExceptionMakeCommand;
-use Hexters\Laramodule\Console\Commands\InitInertiaCommand;
+use Hexters\Laramodule\Console\Commands\InitInertiaVueCommand;
 use Hexters\Laramodule\Console\Commands\JobMakeCommand;
 use Hexters\Laramodule\Console\Commands\ListenerMakeCommand;
 use Hexters\Laramodule\Console\Commands\MailMakeCommand;
@@ -94,7 +94,7 @@ class ArtisanServiceProvider extends ServiceProvider
                 SeederMakeCommand::class,
                 MigrateMakeCommand::class,
                 SeedCommand::class,
-                InitInertiaCommand::class,
+                InitInertiaVueCommand::class,
             ]);
         }
     }
