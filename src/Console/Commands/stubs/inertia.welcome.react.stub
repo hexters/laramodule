@@ -1,0 +1,38 @@
+import React from "react"
+import { Head } from '@inertiajs/react'
+import { Link } from '@inertiajs/react'
+
+export default function Welcome() {
+    return (
+        <>
+            <Head>
+                <title>{{ module }}</title>
+            </Head>
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="bg-white border p-5 w-1/2 rounded-xl drop-shadow-lg">
+                    <h1 className="text-xl mb-4 font-bold text-gray-700">Welcome to The {{ module }} Module with InertiaJs</h1>
+                    
+                    <p className="mb-4">
+                        Create an extraordinary module, launch your module to the public for free or for a fee to be reused in
+                        the <a className="underline" href="https://github.com/hexters/laramodule"
+                            target="_blank">hexters/laramodule</a> package by executing the command below
+                    </p>
+                    <p className="mb-4 bg-gray-200 p-5">
+                        <code>
+                            php artisan module:publish {{ module }}
+                        </code>
+                    </p>
+                    <p className="mb-4">
+                        If you want to sell it, you can use an alternative PHP package license sales Saas website at
+                        <a href="https://ppmarket.org" target="_blank" className="underline">https://ppmarket.org</a>.
+                    </p>
+                    <h3 className="text-lg font-bold mb-4">Donate</h3>
+                    <p>
+                        If this Laravel package was useful to you, please consider donating to development <a
+                            href="https://www.patreon.com/hexters" target="_blank" className="font-bold underline">Patreon</a>
+                    </p>
+                </div>
+            </div>
+        </>
+    );
+}

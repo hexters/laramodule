@@ -5,14 +5,14 @@ namespace Hexters\Laramodule\Console\Commands;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 
-class InitInertiaVueCommand extends Command
+class InitInertiaReactCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'inertia:init-vue
+    protected $signature = 'inertia:init-react
     { --module= : Module name}';
 
     /**
@@ -20,7 +20,7 @@ class InitInertiaVueCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Init InertiaJs components vue';
+    protected $description = 'Init InertiaJs components react';
 
     public function getRouteStub()
     {
@@ -36,9 +36,9 @@ class InitInertiaVueCommand extends Command
     public function getWelcomeStub()
     {
 
-        $stub = public_path('/stub/inertia.welcome.vue.stub');
+        $stub = public_path('/stub/inertia.welcome.react.stub');
         if (!file_exists($stub)) {
-            $stub = __DIR__ . '/stubs/inertia.welcome.vue.stub';
+            $stub = __DIR__ . '/stubs/inertia.welcome.react.stub';
         }
 
         return $stub;
@@ -93,7 +93,7 @@ class InitInertiaVueCommand extends Command
         if (!is_dir($path)) {
             @mkdir($path);
         }
-        file_put_contents("{$path}/Welcome.vue", $welcome);
+        file_put_contents("{$path}/Welcome.jsx", $welcome);
         $this->components->info('Inertia template has been created');
     }
 }

@@ -188,13 +188,100 @@ Open your `app.blade.php` and change vite load assets.
 
  <head>
 
+    . . . 
+
     @vite(['inertia.js', 'resources/css/app.css'])
+
+    . . .
 
  </head>
  
 . . . 
 
 ```
+
+## Inertia with React
+Follow the command below to create a module with inertia support.
+
+```bash
+php artisan module:make Blog --command=inertia:init-react
+```
+
+You can also do this with an existing module, but remember that. The `route.php` file will be replaced by a new file.
+
+```bash
+php artisan inertia:init-react --module=Blog
+```
+Create a new javascript file in your root project directory with name `inertia.jsx` and paste code below.
+```js
+import React from 'react'
+import { createInertiaApp } from '@inertiajs/react'
+import { createRoot } from 'react-dom/client'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+
+
+const getPage = (name) => {
+
+    let names = (name).split('::');
+    let module = names.shift();
+    let page = names.pop();
+
+    return resolvePageComponent(
+        `./Modules/${module}/Resources/pages/${page}.jsx`,
+        import.meta.glob('./Modules/**/*.jsx', { eager: true })
+    );
+}
+
+createInertiaApp({
+    resolve: getPage,
+    setup({ el, App, props }) {
+        createRoot(el).render(<App {...props} />)
+    },
+})
+
+```
+Add `inertia.jsx` to `vite.config.js`
+
+```js
+. . . 
+
+export default defineConfig({
+    plugins: [
+        vue(),
+        laravel({
+            input: ladminViteInputs([
+                'resources/css/app.css',
+                'resources/js/app.js',
+
+                'inertia.jsx', // <--- add here
+
+            ]),
+            refresh: true,
+        }),
+    ],
+});
+```
+
+Open your `app.blade.php` and change vite load assets. 
+```html
+
+. . . 
+
+ <head>
+
+    . . . 
+
+    @viteReactRefresh
+    @vite(['inertia.jsx', 'resources/css/app.css'])
+
+    . . . 
+    
+ </head>
+ 
+. . . 
+
+```
+
 
 ## Tailwind Setup
 
