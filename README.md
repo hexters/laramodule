@@ -244,10 +244,11 @@ Add `inertia.jsx` to `vite.config.js`
 
 ```js
 . . . 
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     plugins: [
-        vue(),
+        react(),
         laravel({
             input: ladminViteInputs([
                 'resources/css/app.css',
@@ -275,7 +276,7 @@ Open your `app.blade.php` and change vite load assets.
     @vite(['inertia.jsx', 'resources/css/app.css'])
 
     . . . 
-    
+
  </head>
  
 . . . 
