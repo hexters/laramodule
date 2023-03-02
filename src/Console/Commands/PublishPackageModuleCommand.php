@@ -118,7 +118,7 @@ class PublishPackageModuleCommand extends Command
 
         if (in_array($correct, ['Yes', 'yes', 'YES', 'y', 'Y'])) {
 
-            $this->info('Generating package...');
+            $this->components->info('Generating package...');
             $this->line('');
             $nodeModules = base_path('Modules' . DIRECTORY_SEPARATOR . $package . DIRECTORY_SEPARATOR . 'node_modules');
 
@@ -198,7 +198,7 @@ class PublishPackageModuleCommand extends Command
         $targetPackage = $moduleDirectory . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $package;
         File::copyDirectory(base_path('Modules/' . $package), $targetPackage);
 
-        $this->info('# Package generated successfully.');
+        $this->components->info('# Package generated successfully.');
         $this->line('');
         $this->line('-------------------------------------------------------------------');
         $this->line('');

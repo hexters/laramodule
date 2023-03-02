@@ -86,7 +86,7 @@ class SeedCommand extends Command
             $this->resolver->setDefaultConnection($previousConnection);
         }
 
-        $this->info('Database seeding completed successfully.');
+        $this->components->info('Database seeding completed successfully.');
 
         return 0;
     }

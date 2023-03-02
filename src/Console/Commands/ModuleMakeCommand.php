@@ -174,9 +174,9 @@ class ModuleMakeCommand extends Command
                 $this->option('command')
             );
 
-            $this->info("Module {$name} created successfully.");
+            $this->components->info("Module {$name} created successfully.");
             $this->line('');
-            $this->info('visit : ' . url($loweName));
+            $this->components->info('visit : ' . url($loweName));
             $this->line('');
 
             return;

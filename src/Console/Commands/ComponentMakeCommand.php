@@ -57,7 +57,7 @@ class ComponentMakeCommand extends ConsoleComponentMakeCommand
 
         if ($this->option('view')) {
             $this->writeView(function () {
-                $this->info($this->type . ' created successfully.');
+                $this->components->info($this->type . ' created successfully.');
             });
 
             return;
