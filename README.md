@@ -310,7 +310,7 @@ module.exports = {
 
 
 
-# Donate
-If this Laravel package was useful to you, please consider donating some coffee ☕☕☕☕
-
-- Patreon : [**hexters**](https://www.patreon.com/hexters)
+# Supporting the project
+You can support the maintainer of this project through the referral links below
+- [**Sign up for DigitalOcean**](https://www.digitalocean.com/?refcode=36844cd4f4b4&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+- [**PayPal**](https://paypal.me/asepss19)
