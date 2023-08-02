@@ -295,10 +295,8 @@ module.exports = {
 
     . . .
 
-    "./Modules/**/*.blade.php",
-    "./Modules/**/*.js",
-    "./Modules/**/*.vue", // if you use VueJs
-    "./Modules/**/*.jsx", // if you use React
+    "./Modules/**/*.{blade.php,js,vue,jsx}",
+    "./resources/**/*.{blade.php,js}",
 
     . . .
 
