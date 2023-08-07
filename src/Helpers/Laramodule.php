@@ -33,7 +33,7 @@ if (!function_exists('module_all')) {
     {
         $modules = [];
         foreach (scandir(base_path('Modules')) as $module) {
-            if (! in_array($module, ['.', '..'])) {
+            if (! in_array($module, ['.', '..']) && $module[0] != '.') {
                 $modules[] = $module;
             }
         }
