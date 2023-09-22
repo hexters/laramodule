@@ -115,9 +115,6 @@ Happy coding ☕
 
 # Inertia Support
 
-> For inertia support will be coming soon, stay tuned for updates. And follow me in [@Hexters](https://twitter.com/hexters)
-
-
 Laramodule is already supported for integration with InertiaJs. Follow the official Inertia.js website to see the installation steps. [inertiajs.com](https://inertiajs.com)
 
 ## Inertia with VueJs
