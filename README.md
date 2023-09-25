@@ -292,7 +292,7 @@ module.exports = {
 
     . . .
 
-    "./Modules/**/*.{blade.php,js,vue,jsx}",
+    "./Modules/**/Resources/**/*.{blade.php,js,vue}",
     "./resources/**/*.{blade.php,js}",
 
     . . .
