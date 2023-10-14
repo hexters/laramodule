@@ -41,6 +41,48 @@ mkdir Modules
 
 * don't forget to run `composer dump-autoload` afterwards
 
+## Helpers
+
+Module path
+
+```php
+module_path('Blog');
+
+module_path('Blog', 'target/path');
+```
+
+list of all module paths
+
+```php
+module_load_all();
+```
+list of all module paths
+
+```php
+module_all();
+```
+
+Make module enabled
+
+```php
+enable_module('Blog');
+
+Make module disabled
+
+```php
+disabled_module('Blog');
+```
+
+List of module name by status or get list module name by status
+
+```php
+module_status()
+
+module_status('enabled');
+
+module_status('disabled');
+```
+
 ## Managing assets
 
 Install node module pacakge
