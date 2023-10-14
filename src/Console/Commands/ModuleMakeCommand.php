@@ -24,6 +24,8 @@ class ModuleMakeCommand extends Command
                             {--command= : Run the command after successfully creating the module}';
 
     protected $name;
+    
+    protected $desc;
 
     /**
      * The console command description.
@@ -94,6 +96,8 @@ class ModuleMakeCommand extends Command
         }
         $this->name = $name;
         $loweName = strtolower($name);
+
+        $this->desc = text(label: "Write a description for the {$name} module.");
 
         if (!is_dir($this->module_path($name))) {
 
@@ -266,6 +270,7 @@ class ModuleMakeCommand extends Command
         return [
             'name' => strtolower($name),
             'namespace' => $this->namespace($name),
+            'description' => $this->desc,
             'providers' => (array) [
                 $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
                 $this->namespace($name) . 'Providers\\' . 'EventServiceProvider',
