@@ -44,7 +44,7 @@ class LaramoduleServiceProvider extends ServiceProvider
         $informations = [];
 
         if (is_dir(base_path('Modules'))) {
-            foreach (module_load_all() as $module) {
+            foreach (module_path_lists() as $module) {
 
                 if (file_exists($module . DIRECTORY_SEPARATOR . 'app.json')) {
                     $informations[] = json_decode(

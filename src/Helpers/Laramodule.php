@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 if (!function_exists('module_path')) {
 
@@ -13,9 +14,9 @@ if (!function_exists('module_path')) {
     }
 }
 
-if (!function_exists('module_load_all')) {
+if (!function_exists('module_path_lists')) {
 
-    function module_load_all()
+    function module_path_lists()
     {
         $modules = [];
         foreach (File::directories(base_path('Modules')) as $module) {
@@ -26,8 +27,8 @@ if (!function_exists('module_load_all')) {
     }
 }
 
-if (!function_exists('module_all')) {
-    function module_all()
+if (!function_exists('module_name_lists')) {
+    function module_name_lists()
     {
         $modules = [];
         foreach (scandir(base_path('Modules')) as $module) {
@@ -40,8 +41,8 @@ if (!function_exists('module_all')) {
     }
 }
 
-if (!function_exists('enable_module')) {
-    function enable_module($name)
+if (!function_exists('module_set_enabled')) {
+    function module_set_enabled($name)
     {
         if ($module = module_path($name)) {
             try {
@@ -50,27 +51,19 @@ if (!function_exists('enable_module')) {
                 $editjson = $appjson;
                 $editjson['status'] = 'enabled';
                 file_put_contents($jsonfile, json_encode($editjson, JSON_PRETTY_PRINT));
-                return [
-                    'status' => true,
-                    'message' => "{$name} enabled"
-                ];
+                return true;
             } catch (Exception $e) {
-                return [
-                    'status' => false,
-                    'message' => $e->getMessage()
-                ];
+                Log::error(['Error enabled module', $e->getMessage()]);
+                return false;
             }
         }
-
-        return [
-            'status' => false,
-            'message' => "{$name} not found?"
-        ];
+        Log::error("{$name} module cannot set to enabled because module not found?");
+        return false;
     }
 }
 
-if (!function_exists('disabled_module')) {
-    function disabled_module($name)
+if (!function_exists('module_set_disabled')) {
+    function module_set_disabled($name)
     {
         if ($module = module_path($name)) {
             try {
@@ -79,27 +72,29 @@ if (!function_exists('disabled_module')) {
                 $editjson = $appjson;
                 $editjson['status'] = 'disabled';
                 file_put_contents($jsonfile, json_encode($editjson, JSON_PRETTY_PRINT));
-                return [
-                    'status' => true,
-                    'message' => "{$name} disabled"
-                ];
+                return true;
             } catch (Exception $e) {
-                return [
-                    'status' => false,
-                    'message' => $e->getMessage()
-                ];
+                Log::error(['Error disabled module', $e->getMessage()]);
+                return false;
             }
         }
-
-        return [
-            'status' => false,
-            'message' => "{$name} not found?"
-        ];
+        Log::error("{$name} module cannot set to disabled because module not found?");
+        return false;
     }
 }
 
 if (!function_exists('module_status')) {
-    function module_status( $type = null )
+    function module_status($module)
+    {
+        $path = module_path($module);
+        $jsonfile = $path . '/app.json';
+        $appjson = json_decode(file_get_contents($jsonfile), true);
+        return $appjson['status'];
+    }
+}
+
+if (!function_exists('module_status_lists')) {
+    function module_status_lists($type = null)
     {
         $modules = [];
         foreach (File::directories(base_path('Modules')) as $module) {

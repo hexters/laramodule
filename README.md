@@ -62,27 +62,6 @@ list of all module paths
 module_all();
 ```
 
-Make module enabled
-
-```php
-enable_module('Blog');
-```
-Make module disabled
-
-```php
-disabled_module('Blog');
-```
-
-List of module name by status or get list module name by status
-
-```php
-module_status()
-
-module_status('enabled');
-
-module_status('disabled');
-```
-
 ## Managing assets
 
 Install node module pacakge
