@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ namespace }};
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class Module{{ moduleName }}StatusMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+
+        if (in_array(module_status('{{ moduleName }}'), ['disabled'])) {
+            abort(404, '{{ moduleName }} module disabled');
+        }
+
+        return $next($request);
+    }
+}

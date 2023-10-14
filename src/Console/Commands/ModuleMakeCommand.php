@@ -122,7 +122,7 @@ class ModuleMakeCommand extends Command
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
                     }
                 }
-
+                
                 foreach ($items as $dir) {
                     mkdir($this->module_path("{$name}/{$item}/{$dir}"));
 
@@ -134,7 +134,6 @@ class ModuleMakeCommand extends Command
                         $content = Str::replace('{{ module }}', $name, $blade);
                         $content = Str::replace('/{{ module }}/', strtolower($name), $content);
                         $content = Str::replace('{{ moduleLower }}', strtolower($name), $content);
-
                         file_put_contents($this->module_path("{$name}/{$item}/{$dir}/welcome.blade.php"), $content);
                     } else {
                         file_put_contents($this->module_path("{$name}/{$item}/{$dir}/.gitkeep"), "");
@@ -178,6 +177,18 @@ class ModuleMakeCommand extends Command
             ));
 
             file_put_contents($this->module_path("{$name}/.gitignore"), "/node_modules\npackage-lock.json\nyarn.lock");
+
+            // Make middleware
+            collect([
+                __DIR__ . '/stubs/module.status.middleware.stub',
+            ])->each(function ($path) use ($name) {
+                if (file_exists($path)) {
+                    $content = Str::of(file_get_contents($path))
+                        ->replace('{{ moduleName }}', $name)
+                        ->replace('{{ namespace }}', $this->namespace($name) . 'Http\\Middleware');
+                    file_put_contents($this->module_path("{$name}/Http/Middleware/Module{$name}StatusMiddleware.php"), $content);
+                }
+            });
 
             $package = file_get_contents(__DIR__ . '/stubs/package.stub');
             $package = str_replace('{{ module }}', strtolower($name), $package);
