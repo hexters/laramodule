@@ -66,7 +66,7 @@ Make module enabled
 
 ```php
 enable_module('Blog');
-
+```
 Make module disabled
 
 ```php
