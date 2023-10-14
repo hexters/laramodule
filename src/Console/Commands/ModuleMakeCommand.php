@@ -5,8 +5,10 @@ namespace Hexters\Laramodule\Console\Commands;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
+
+use function Laravel\Prompts\text;
+use function Laravel\Prompts\warning;
 
 class ModuleMakeCommand extends Command
 {
@@ -17,8 +19,10 @@ class ModuleMakeCommand extends Command
      * @var string
      */
     protected $signature = 'module:make 
-                            {name : Name of your module}
+                            {name? : Name of your module}
                             {--command= : Run the command after successfully creating the module}';
+
+    protected $name;
 
     /**
      * The console command description.
@@ -44,7 +48,7 @@ class ModuleMakeCommand extends Command
      */
     protected function getModuleNameInput()
     {
-        $name = ltrim(rtrim($this->option('module'), '/'), '/');
+        $name = Str::slug($this->option('module'));
         return Str::studly($name);
     }
 
@@ -79,7 +83,15 @@ class ModuleMakeCommand extends Command
             'Providers' => []
         ];
 
-        $name = Str::studly($this->argument('name'));
+        $name = Str::studly(Str::slug($this->argument('name')));
+
+        if (in_array($name, [null, ""])) {
+            $name = text(label: 'Name the module you want to create!', required: true, validate: fn ($value) => match (true) {
+                is_dir(module_path($value)) => 'Module is available!',
+                default => null
+            });
+        }
+        $this->name = $name;
         $loweName = strtolower($name);
 
         if (!is_dir($this->module_path($name))) {
@@ -182,13 +194,13 @@ class ModuleMakeCommand extends Command
             return;
         }
 
-        $this->error('Module already exists!');
+        warning('Module already exists!');
     }
 
     protected function runOtherCommand($command)
     {
         if ($command) {
-            $name = Str::of($this->argument('name'))->camel();
+            $name = Str::of($this->name)->camel();
             try {
                 $this->call($command, [
                     '--module' => $name
@@ -225,7 +237,7 @@ class ModuleMakeCommand extends Command
 
     protected function appjson()
     {
-        $name = Str::studly($this->argument('name'));
+        $name = Str::studly($this->name);
 
         return [
             'name' => strtolower($name),

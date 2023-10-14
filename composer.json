@@ -39,6 +39,7 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^6.24"
+        "orchestra/testbench": "^6.24",
+        "laravel/prompts": "^0.1.11"
     }
 }

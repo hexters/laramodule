@@ -47,7 +47,7 @@ trait BaseCommandTrait
      */
     protected function getModuleNameInput()
     {
-        $name = trim($this->option('module'), '/');
+        $name = Str::slug($this->option('module'));
         return Str::studly($name);
     }
 
