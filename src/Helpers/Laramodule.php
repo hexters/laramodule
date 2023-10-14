@@ -137,3 +137,11 @@ if (!function_exists('module_details')) {
         return null;
     }
 }
+
+
+if (!function_exists('module_is_active')) {
+    function module_is_active($module)
+    {
+        return in_array(module_status($module), ['enabled']);
+    }
+}
