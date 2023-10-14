@@ -93,10 +93,10 @@ if (!function_exists('module_status')) {
     }
 }
 
-if (!function_exists('module_status_lists')) {
-    function module_status_lists($type = null)
+if (!function_exists('module_group_status')) {
+    function module_group_status($type = null)
     {
-        $modules = [];
+        $modules['enabled'] = [];
         foreach (File::directories(base_path('Modules')) as $module) {
             $appjson = $module . '/app.json';
             if (is_file($appjson)) {
@@ -107,7 +107,7 @@ if (!function_exists('module_status_lists')) {
             }
         }
 
-
+        $modules['disabled'] = [];
         foreach (File::directories(base_path('Modules')) as $module) {
             $appjson = $module . '/app.json';
             if (is_file($appjson)) {
