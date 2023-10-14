@@ -99,7 +99,7 @@ class ModuleMakeCommand extends Command
         $this->name = $name;
         $loweName = strtolower($name);
 
-        $this->desc = text(label: "Write a description for the {$name} module?");
+        $this->desc = text(label: "Write a description for the {$name} module? (optional)");
 
         $author = get_current_user();
         $email = env('MAIL_FROM_ADDRESS', 'example@mail.com');
