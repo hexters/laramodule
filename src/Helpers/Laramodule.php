@@ -121,3 +121,19 @@ if (!function_exists('module_group_status')) {
         return is_null($type) ? $modules : ($modules[$type] ?? $modules);
     }
 }
+
+
+if (!function_exists('module_details')) {
+    function module_details($module)
+    {
+        if (is_dir($path = module_path($module))) {
+            $app = "$path/app.json";
+            if (file_exists($app)) {
+                return collect(json_decode(file_get_contents($app), true))->filter(function ($item, $index) {
+                    return !in_array($index, ['namespace', 'providers']);
+                });
+            }
+        }
+        return null;
+    }
+}
