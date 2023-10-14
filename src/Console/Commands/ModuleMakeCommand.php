@@ -24,8 +24,10 @@ class ModuleMakeCommand extends Command
                             {--command= : Run the command after successfully creating the module}';
 
     protected $name;
-    
+
     protected $desc;
+
+    protected $author;
 
     /**
      * The console command description.
@@ -97,7 +99,11 @@ class ModuleMakeCommand extends Command
         $this->name = $name;
         $loweName = strtolower($name);
 
-        $this->desc = text(label: "Write a description for the {$name} module.");
+        $this->desc = text(label: "Write a description for the {$name} module?");
+
+        $author = get_current_user();
+        $email = env('MAIL_FROM_ADDRESS', 'example@mail.com');
+        $this->author = text(label: "Author", default: "{$author} <$email>");
 
         if (!is_dir($this->module_path($name))) {
 
@@ -126,7 +132,7 @@ class ModuleMakeCommand extends Command
                         file_put_contents($this->module_path("{$name}/{$item}/web.php"), $content);
                     }
                 }
-                
+
                 foreach ($items as $dir) {
                     mkdir($this->module_path("{$name}/{$item}/{$dir}"));
 
@@ -270,6 +276,7 @@ class ModuleMakeCommand extends Command
         return [
             'name' => strtolower($name),
             'namespace' => $this->namespace($name),
+            'author' => $this->author,
             'description' => $this->desc,
             'providers' => (array) [
                 $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
