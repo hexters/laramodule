@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
@@ -182,9 +183,16 @@ class ModuleMakeCommand extends Command
             $package = str_replace('{{ module }}', strtolower($name), $package);
             file_put_contents($this->module_path("{$name}/package.json"), $package);
 
-            $this->runOtherCommand(
-                $this->option('command')
-            );
+            $command = $this->option('command');
+            if (in_array($command, [null, ''])) {
+
+                $select = select(label: 'Is there a command that you want to run after the {$name} module is created?', options: ['yes', 'no'], default: 'no');
+                if ($select == 'yes') {
+                    $command = text(label: "type the command you want to execute!", placeholder: 'E.g : config:clear', hint: "* Option --module={$name} is included in it.");
+                }
+            }
+
+            $this->runOtherCommand($command);
 
             $this->components->info("Module {$name} created successfully.");
             $this->line('');
@@ -194,19 +202,24 @@ class ModuleMakeCommand extends Command
             return;
         }
 
-        warning('Module already exists!');
+        warning("{$this->name} module is already available!");
     }
 
-    protected function runOtherCommand($command)
+    protected function runOtherCommand($command = null)
     {
         if ($command) {
             $name = Str::of($this->name)->camel();
+
             try {
-                $this->call($command, [
-                    '--module' => $name
-                ]);
-            } catch (Exception $e) {
-                Log::error([__CLASS__, "Error in command {$command} : " . $e->getMessage()]);
+                try {
+                    $this->call($command, [
+                        '--module' => $name
+                    ]);
+                } catch (Exception $e) {
+                    $this->call($command);
+                }
+            } catch (Exception $err) {
+                Log::error(['ERROR MAKE MODULE', $err->getMessage()]);
             }
         }
     }
