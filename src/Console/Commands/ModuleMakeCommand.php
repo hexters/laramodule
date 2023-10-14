@@ -91,7 +91,7 @@ class ModuleMakeCommand extends Command
         $name = Str::studly(Str::slug($this->argument('name')));
 
         if (in_array($name, [null, ""])) {
-            $name = text(label: 'Name the module you want to create!', required: true, validate: fn ($value) => match (true) {
+            $name = text(label: 'What is the name?', required: true, validate: fn ($value) => match (true) {
                 is_dir(module_path($value)) => 'Module is available!',
                 default => null
             });
