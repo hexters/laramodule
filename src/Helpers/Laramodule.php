@@ -4,12 +4,13 @@ use Hexters\Laramodule\Events\ModuleDisabled;
 use Hexters\Laramodule\Events\ModuleEnabled;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 if (!function_exists('module_path')) {
 
     function module_path($name, $path = null)
     {
-        $name = ucwords($name);
+        $name = Str::of($name)->slug()->studly();
         $folder = 'Modules/';
         $path = $path ? '/' . ltrim($path, '/') : null;
         return base_path("{$folder}{$name}{$path}");

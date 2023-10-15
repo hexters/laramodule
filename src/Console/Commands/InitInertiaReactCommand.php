@@ -14,7 +14,7 @@ class InitInertiaReactCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'inertia:init-react
+    protected $signature = 'module:inertia-react
     { --module= : Module name}';
 
     /**

@@ -14,8 +14,8 @@ class InitInertiaVueCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'inertia:init-vue
-    { --module= : Module name}';
+    protected $signature = 'module:inertia-vue
+    { --module= : Module target name}';
 
     /**
      * The console command description.
