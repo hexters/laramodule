@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
 
 class PublishPackageModuleCommand extends Command
 {
@@ -54,7 +55,10 @@ class PublishPackageModuleCommand extends Command
         $this->line('');
         $this->line('This command will guide you through creating your Ladmin Module.');
 
-        $this->name = $this->ask("Package Name:", $moduleNameLower);
+        $this->name = text(label: "What is the Package Name?", default: $moduleNameLower, required: true, placeholder: "E.g username/package-name", validate: fn ($value) => match (true) {
+            !preg_match('/\w+\/\w+/', $value) => 'Format does not match, name must mention username/package',
+            default => null
+        });
 
         $namespace = [];
         foreach (explode('/', $this->name) as $name) {
@@ -62,9 +66,9 @@ class PublishPackageModuleCommand extends Command
         }
         $this->namespace = implode('\\', $namespace) . '\\';
 
-        $description = $this->ask('Description: ');
+        $description = text('Description (optional)');
 
-        $author = $this->ask('Author:', $authorDefault);
+        $author = text(label: 'Author ', default: $authorDefault);
         preg_match_all('!(.*?)\s+<\s*(.*?)\s*>!', $author, $matches);
         $authors = [];
         for ($i = 0; $i < count($matches[0]); $i++) {
@@ -73,9 +77,9 @@ class PublishPackageModuleCommand extends Command
                 'email' => $matches[2][$i],
             );
         }
-        $keywords = $this->ask('Keywords:', 'Laravel, Ladmin Package');
+        $keywords = text(label: 'Keywords:', default: $this->name . ', Laravel, Ladmin Package');
 
-        $license = $this->ask('License:', 'MIT');
+        $license = text(label: 'License:', default: 'MIT');
 
         $composer['name'] = $this->name;
         $composer['type'] = 'library';
@@ -116,7 +120,7 @@ class PublishPackageModuleCommand extends Command
             $this->composer_json
         );
 
-        $correct = $this->ask('Do you confirm generation', 'yes');
+        $correct = select(label: 'Are you sure you want to generate this module?', options: ['yes', 'no'], required: true);
 
         if (in_array($correct, ['Yes', 'yes', 'YES', 'y', 'Y'])) {
 
