@@ -1,4 +1,4 @@
-# Laravel HMVC
+# Laravel HMVC V4
 
 [![Latest Stable Version](https://poser.pugx.org/hexters/laramodule/v/stable)](https://packagist.org/packages/hexters/laramodule)
 [![Total Downloads](https://poser.pugx.org/hexters/laramodule/downloads)](https://packagist.org/packages/hexters/laramodule)
@@ -12,12 +12,18 @@ Laramodule also provides an easy to use API for interacting with modules and the
 
 Laramodule is a powerful tool for developers who want to create modular and maintainable applications with Laravel. It can help developers to speed up development, improve code quality and maintain a cleaner structure of their application.
 
+
+
+## Doc. Versions
+|Version|Doc.|
+|-|-|
+|V3|[Read Me](https://github.com/hexters/laramodule/blob/main/src/releasedoc/v3.md)|
+
 To install through Composer, by run the following command:
 
 ```bash
 composer require hexters/laramodule
 ```
-
 
 ## Autoloading
 By default the module classes are not loaded automatically. You can autoload your modules using `psr-4`. For example :
@@ -39,27 +45,10 @@ And make `Modules` directory in your root project folder
 mkdir Modules
 ```
 
-* don't forget to run `composer dump-autoload` afterwards
+Don't forget to run the commands below
 
-## Helpers
-
-Module path
-
-```php
-module_path('Blog');
-
-module_path('Blog', 'target/path');
-```
-
-list of all module paths
-
-```php
-module_load_all();
-```
-list of all module paths
-
-```php
-module_all();
+```bash
+composer dump-autoload
 ```
 
 ## Managing assets
@@ -92,14 +81,18 @@ export default defineConfig({
 
 ```
 
-Install node dependencies in the modules folder
+Install the node module package in all module folders
 ```bash
-cd Modules/Blog && npm install
+php artisan module:npm --install
+php artisan module:npm --update
 ```
 
-Back to the root project and run vite
+And run the vite command below
+
 ```bash
 npm run dev
+
+npm run build
 ```
 
 ## Artisan
@@ -134,6 +127,12 @@ php artisan module:publish Blog
 
 Happy coding ☕
 
+# Livewire Support
+Laramodule is already supported for integration with **Livewire**
+
+### [Documentation](https://github.com/hexters/wirehmvc)
+
+
 # Inertia Support
 
 Laramodule is already supported for integration with InertiaJs. Follow the official Inertia.js website to see the installation steps. [inertiajs.com](https://inertiajs.com)
@@ -142,13 +141,13 @@ Laramodule is already supported for integration with InertiaJs. Follow the offic
 Follow the command below to create a module with inertia support.
 
 ```bash
-php artisan module:make Blog --command=inertia:init-vue
+php artisan module:make Blog --command=module:inertia-vue
 ```
 
 You can also do this with an existing module, but remember that. The `route.php` file will be replaced by a new file.
 
 ```bash
-php artisan inertia:init-vue --module=Blog
+php artisan module:inertia-vue --module=Blog
 ```
 
 Create a new javascript file in your root project directory with name `inertia.js` and paste code below.
@@ -222,13 +221,13 @@ Open your `app.blade.php` and change vite load assets.
 Follow the command below to create a module with inertia support.
 
 ```bash
-php artisan module:make Blog --command=inertia:init-react
+php artisan module:make Blog --command=module:inertia-react
 ```
 
 You can also do this with an existing module, but remember that. The `route.php` file will be replaced by a new file.
 
 ```bash
-php artisan inertia:init-react --module=Blog
+php artisan module:inertia-react --module=Blog
 ```
 Create a new javascript file in your root project directory with name `inertia.jsx` and paste code below.
 ```js
@@ -324,9 +323,88 @@ module.exports = {
 
 ```
 
+## Helpers
 
+Module path
+
+```php
+module_path('Blog');
+
+module_path('Blog', 'target/path');
+```
+
+list of all module paths
+
+```php
+module_path_lists();
+```
+list of all module paths
+
+```php
+module_name_lists();
+```
+
+Enable Module
+```php
+module_enable('Blog')
+```
+
+Disable Module
+```php
+module_disable('Blog')
+```
+
+Get module status
+
+```php
+module_status('Blog')
+```
+
+Grouping module by status
+
+```php
+module_group_status()
+```
+View module details
+
+```php
+module_details('Blog')
+```
+
+Get active module
+
+```php
+module_active('Blog')
+```
+# Events
+
+Laramodule has two events when enabling and disabling the module that can be listened to for specific purposes.
+
+You can read how to use events & listeners in the [official documentation.](https://laravel.com/docs/master/events#registering-events-and-listeners)
+
+```php
+
+use Hexters\Laramodule\Events\ModuleDisabled;
+use Hexters\Laramodule\Events\ModuleEnabled;
+
+/**
+ * The event listener mappings for the application.
+ *
+ * @var array
+ */
+protected $listen = [
+    ModuleDisabled::class => [
+        // ...
+    ],
+ 
+    ModuleEnabled::class => [
+        // ...
+    ],
+];
+```
 
 # Supporting the project
 You can support the maintainer of this project through the referral links below
 - [**Sign up for DigitalOcean**](https://www.digitalocean.com/?refcode=36844cd4f4b4&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 - [**PayPal**](https://paypal.me/asepss19)
+
