@@ -403,8 +403,11 @@ protected $listen = [
 ];
 ```
 
+
+
 # Supporting the project
 You can support the maintainer of this project through the referral links below
 - [**Sign up for DigitalOcean**](https://www.digitalocean.com/?refcode=36844cd4f4b4&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 - [**PayPal**](https://paypal.me/asepss19)
 
+Follow package updates on my X [@hexters](https://twitter.com/hexters)
