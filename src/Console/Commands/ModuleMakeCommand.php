@@ -229,12 +229,10 @@ class ModuleMakeCommand extends Command
     protected function runOtherCommand($command = null)
     {
         if ($command) {
-            $name = Str::of($this->name)->camel();
-
             try {
                 try {
                     $this->call($command, [
-                        '--module' => $name
+                        '--module' => $this->name
                     ]);
                 } catch (Exception $e) {
                     $this->call($command);
