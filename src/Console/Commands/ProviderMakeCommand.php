@@ -76,7 +76,7 @@ class ProviderMakeCommand extends ConsoleProviderMakeCommand
     {
         $class = parent::buildClass($name);
         $moduleName = Str::lower($this->getModuleNameInput());
-        $moduleNameOriginal = $this->getModuleNameInput();
+        $moduleNameOriginal = Str::studly($this->getModuleNameInput());
 
         if ($this->option('type') !== false) {
             $class = str_replace(['DummyView', '{{ module }}'], $moduleName, $class);
