@@ -16,7 +16,7 @@ class Module{{ moduleName }}StatusMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (! module_is_active('{{ moduleName }}')) {
+        if (! module_active('{{ moduleName }}')) {
             abort(404, '{{ moduleName }} module disabled');
         }
 
