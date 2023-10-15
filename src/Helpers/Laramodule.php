@@ -41,8 +41,8 @@ if (!function_exists('module_name_lists')) {
     }
 }
 
-if (!function_exists('module_set_enabled')) {
-    function module_set_enabled($name)
+if (!function_exists('module_enable')) {
+    function module_enable($name)
     {
         if ($module = module_path($name)) {
             try {
@@ -62,8 +62,8 @@ if (!function_exists('module_set_enabled')) {
     }
 }
 
-if (!function_exists('module_set_disabled')) {
-    function module_set_disabled($name)
+if (!function_exists('module_disable')) {
+    function module_disable($name)
     {
         if ($module = module_path($name)) {
             try {
@@ -139,8 +139,8 @@ if (!function_exists('module_details')) {
 }
 
 
-if (!function_exists('module_is_active')) {
-    function module_is_active($module)
+if (!function_exists('module_active')) {
+    function module_active($module)
     {
         return in_array(module_status($module), ['enabled']);
     }
