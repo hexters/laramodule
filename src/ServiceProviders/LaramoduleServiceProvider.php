@@ -19,6 +19,11 @@ class LaramoduleServiceProvider extends ServiceProvider
                 $this->app->register($providers);
             }
         }
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/config.php',
+            'laramodule'
+        );
     }
 
     /**
@@ -28,9 +33,6 @@ class LaramoduleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        
-
     }
 
 

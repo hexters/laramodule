@@ -21,7 +21,8 @@ class ModuleMakeCommand extends Command
      */
     protected $signature = 'module:make 
                             {name? : Name of your module}
-                            {--command= : Run the command after successfully creating the module}';
+                            {--command= : Run the command after successfully creating the module}
+                            {--preset=}';
 
     protected $name;
 
@@ -104,6 +105,16 @@ class ModuleMakeCommand extends Command
         $author = get_current_user();
         $email = env('MAIL_FROM_ADDRESS', 'example@mail.com');
         $this->author = text(label: "Author", default: "{$author} <$email>");
+
+        $preset = select(label: "Select preset ?", options: array_merge(config('laramodule.presets'), config('wirehmvc.presets', [])), required: true);
+
+        if (in_array($preset, ['Inertia With VueJs'])) {
+            $this->input->setOption('preset', 'module:inertia-vue');
+        } else if (in_array($preset, ['Inertia With ReactJs'])) {
+            $this->input->setOption('preset', 'module:inertia-react');
+        } else if (in_array($preset, ['Livewire'])) {
+            $this->input->setOption('preset', 'module:livewire-init');
+        }
 
         if (!is_dir($this->module_path($name))) {
 
@@ -219,6 +230,12 @@ class ModuleMakeCommand extends Command
             $this->line('');
             $this->components->info('visit : ' . url($loweName));
             $this->line('');
+
+            if ($this->option('preset')) {
+                $this->call($this->option('preset'), [
+                    '--module' => $name
+                ]);
+            }
 
             return;
         }
