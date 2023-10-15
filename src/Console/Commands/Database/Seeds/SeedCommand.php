@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
+use function Laravel\Prompts\select;
+
 class SeedCommand extends Command
 {
     use ConfirmableTrait;
@@ -65,10 +67,13 @@ class SeedCommand extends Command
     public function handle()
     {
 
-        if (is_null($this->argument('module'))) {
-            $this->error('Please specify the module name');
-            exit();
+        $module = $this->argument('module');
+        if(is_null($module)) {
+            $module = select(label: "Select an available module!", options: module_name_lists());
         }
+
+        $this->input->setArgument('module', Str::of($module)->slug('-')->studly());
+        
 
         if (!$this->confirmToProceed()) {
             return 1;

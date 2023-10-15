@@ -7,6 +7,8 @@ use Illuminate\Foundation\Console\ModelMakeCommand as ConsoleModelMakeCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
+use function Laravel\Prompts\select;
+
 class ModelMakeCommand extends ConsoleModelMakeCommand
 {
     use CreatesMatchingTest, BaseCommandTrait;
@@ -48,23 +50,14 @@ class ModelMakeCommand extends ConsoleModelMakeCommand
      */
     public function handle()
     {
-        if (is_null($this->option('module'))) {
-            $this->error('Option --module= is required!');
-            exit();
+        $module = $this->option('module');
+        if (is_null($module)) {
+            $module = select(label: "Select an available module!", options: module_name_lists());
         }
 
-        if (parent::handle() === false && !$this->option('force')) {
-            return false;
-        }
-
-        if ($this->option('all')) {
-            $this->input->setOption('factory', true);
-            $this->input->setOption('seed', true);
-            $this->input->setOption('migration', true);
-            $this->input->setOption('controller', true);
-            $this->input->setOption('policy', true);
-            $this->input->setOption('resource', true);
-        }
+        $this->input->setOption('module', Str::of($module)->slug('-')->studly());
+        
+        parent::handle();
     }
 
     /**

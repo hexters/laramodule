@@ -7,6 +7,8 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
+use function Laravel\Prompts\select;
+
 class ComponentMakeCommand extends ConsoleComponentMakeCommand
 {
 
@@ -50,10 +52,12 @@ class ComponentMakeCommand extends ConsoleComponentMakeCommand
     public function handle()
     {
 
-        if (is_null($this->option('module'))) {
-            $this->error('Option --module= is required!');
-            exit();
+        $module = $this->option('module');
+        if (is_null($module)) {
+            $module = select(label: "Select an available module!", options: module_name_lists());
         }
+
+        $this->input->setOption('module', Str::of($module)->slug('-')->studly());
 
         if ($this->option('view')) {
             $this->writeView(function () {
@@ -100,7 +104,7 @@ class ComponentMakeCommand extends ConsoleComponentMakeCommand
         if (!$this->files->isDirectory(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
         }
-        
+
         file_put_contents(
             $path,
             '<div>
@@ -132,7 +136,7 @@ class ComponentMakeCommand extends ConsoleComponentMakeCommand
         $moduleName = Str::lower($this->getModuleNameInput());
 
         return str_replace(
-            ['DummyView', '{{ view }}'],
+            ['DummyView', '{{ view }}', 'view(\'components.'.$this->getView().'\')'],
             'view(\'' . $moduleName . '::components.' . $this->getView() . '\')',
             parent::buildClass($name)
         );

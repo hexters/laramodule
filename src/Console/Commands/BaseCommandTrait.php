@@ -4,6 +4,8 @@ namespace Hexters\Laramodule\Console\Commands;
 
 use Illuminate\Support\Str;
 
+use function Laravel\Prompts\select;
+
 trait BaseCommandTrait
 {
 
@@ -59,10 +61,13 @@ trait BaseCommandTrait
     public function handle()
     {
 
-        if (is_null($this->option('module'))) {
-            $this->error('Option --module= is required!');
-            exit();
+        $module = $this->option('module');
+        if (is_null($module)) {
+            $module = select(label: "Select an available module!", options: module_name_lists());
         }
+
+        $this->input->setOption('module', Str::of($module)->slug('-')->studly());
+
 
         parent::handle();
     }

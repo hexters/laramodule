@@ -5,6 +5,8 @@ namespace Hexters\Laramodule\Console\Commands;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\select;
+
 class InitInertiaVueCommand extends Command
 {
     /**
@@ -75,7 +77,12 @@ class InitInertiaVueCommand extends Command
      */
     public function handle(): void
     {
-        $module =  $this->moduleName();
+        $module = $this->option('module');
+        if (is_null($module)) {
+            $module = select(label: "Select an available module!", options: module_name_lists());
+        }
+
+        $this->input->setOption('module', Str::of($module)->slug('-')->studly());
 
 
         $route = $this->buildClass(

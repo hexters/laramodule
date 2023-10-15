@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
+use function Laravel\Prompts\select;
+
 class PublishPackageModuleCommand extends Command
 {
 
@@ -19,14 +21,14 @@ class PublishPackageModuleCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'module:publish {package}';
+    protected $signature = 'module:publish {module? : Module target name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publish your custom package to ppmarket.org | packagist.org | github.com';
+    protected $description = 'Make the module into a package for free use or sale.';
 
     /**
      * Execute the console command.
@@ -35,24 +37,24 @@ class PublishPackageModuleCommand extends Command
      */
     public function handle()
     {
-        $package = $this->argument('package');
-
-        if (!is_dir(module_path($package))) {
-            $this->error('Module does not exist!');
-            exit;
+        $module = $this->argument('module');
+        if (is_null($module)) {
+            $module = select(label: "Select an available module!", options: module_name_lists());
         }
 
+        $this->input->setArgument('module', Str::of($module)->slug('-')->studly());
+
         $currentUser = Str::studly(get_current_user());
-        $packageName = "{$currentUser}/$package";
+        $moduleName = "{$currentUser}/$module";
         $email = env('MAIL_FROM_ADDRESS', 'example@mail.com');
         $authorDefault = "{$currentUser} <$email>";
 
-        $packageNameLower = Str::of($packageName)->lower();
+        $moduleNameLower = Str::of($moduleName)->lower();
 
         $this->line('');
         $this->line('This command will guide you through creating your Ladmin Module.');
 
-        $this->name = $this->ask("Package Name:", $packageNameLower);
+        $this->name = $this->ask("Package Name:", $moduleNameLower);
 
         $namespace = [];
         foreach (explode('/', $this->name) as $name) {
@@ -96,7 +98,7 @@ class PublishPackageModuleCommand extends Command
             ]
         ];
 
-        $this->provider = $this->namespace . Str::studly($package) . "ServiceProvider";
+        $this->provider = $this->namespace . Str::studly($module) . "ServiceProvider";
         $composer['extra'] = [
             'laravel' => [
                 'providers' => [
@@ -120,14 +122,14 @@ class PublishPackageModuleCommand extends Command
 
             $this->components->info('Generating package...');
             $this->line('');
-            $nodeModules = base_path('Modules' . DIRECTORY_SEPARATOR . $package . DIRECTORY_SEPARATOR . 'node_modules');
+            $nodeModules = base_path('Modules' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . 'node_modules');
 
             if (is_dir($nodeModules)) {
                 $this->error('Please delete the ' . $nodeModules . ' folder first and try again...');
                 exit();
             }
 
-            $this->createModule($package);
+            $this->createModule($module);
         }
     }
 
@@ -145,10 +147,10 @@ class PublishPackageModuleCommand extends Command
     /**
      * Create module
      *
-     * @param string $package
+     * @param string $module
      * @return void
      */
-    protected function createModule($package)
+    protected function createModule($module)
     {
 
         $folders = [
@@ -189,14 +191,14 @@ class PublishPackageModuleCommand extends Command
             File::makeDirectory($moduleDirectory . DIRECTORY_SEPARATOR . $folder);
         }
 
-        file_put_contents($moduleDirectory . '/src/' . $this->providerName($package) . '.php', $this->contentProvider($package));
+        file_put_contents($moduleDirectory . '/src/' . $this->providerName($module) . '.php', $this->contentProvider($module));
         file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . 'composer.json', $this->composer_json);
         file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . '.gitignore', 'vendor/' . PHP_EOL . '*.lock');
-        file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . 'README.md', $this->contentReadme($package));
+        file_put_contents($moduleDirectory . DIRECTORY_SEPARATOR . 'README.md', $this->contentReadme($module));
 
 
-        $targetPackage = $moduleDirectory . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $package;
-        File::copyDirectory(base_path('Modules/' . $package), $targetPackage);
+        $targetPackage = $moduleDirectory . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . $module;
+        File::copyDirectory(base_path('Modules/' . $module), $targetPackage);
 
         $this->components->info('# Package generated successfully.');
         $this->line('');
@@ -219,21 +221,21 @@ class PublishPackageModuleCommand extends Command
     /**
      * Get service provider name
      *
-     * @param string $package
+     * @param string $module
      * @return string
      */
-    protected function providerName($package)
+    protected function providerName($module)
     {
-        return Str::studly($package) . "ServiceProvider";
+        return Str::studly($module) . "ServiceProvider";
     }
 
     /**
      * Content of service provider
      *
-     * @param string $package
+     * @param string $module
      * @return string
      */
-    protected function contentProvider($package)
+    protected function contentProvider($module)
     {
         $stub = file_get_contents(__DIR__ . '/stubs/publisn.provider.stub');
         return str_replace([
@@ -243,19 +245,19 @@ class PublishPackageModuleCommand extends Command
             '{{ className }}',
         ], [
             rtrim($this->namespace, '\\'),
-            $package,
-            Str::of($package)->lower(),
-            $this->providerName($package),
+            $module,
+            Str::of($module)->lower(),
+            $this->providerName($module),
         ], $stub);
     }
 
     /**
      * Content of README.md
      *
-     * @param string $package
+     * @param string $module
      * @return string
      */
-    protected function contentReadme($package)
+    protected function contentReadme($module)
     {
         $stub = file_get_contents(__DIR__ . '/stubs/publish.readme.stub');
         return str_replace([
@@ -263,9 +265,9 @@ class PublishPackageModuleCommand extends Command
             '{{ moduleName }}',
             '{{ name }}'
         ], [
-            Str::studly($package),
+            Str::studly($module),
             $this->name,
-            strtolower($package),
+            strtolower($module),
         ], $stub);
     }
 }

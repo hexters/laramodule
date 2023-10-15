@@ -63,23 +63,7 @@ class SeederMakeCommand extends SeedsSeederMakeCommand
             parent::buildClass($name)
         );
     }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-
-        if (is_null($this->option('module'))) {
-            $this->error('Option --module= is required!');
-            exit();
-        }
-
-        parent::handle();
-    }
-
+    
     /**
      * Get the stub file for the generator.
      *
