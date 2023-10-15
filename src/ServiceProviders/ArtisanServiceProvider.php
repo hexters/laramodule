@@ -24,6 +24,7 @@ use Hexters\Laramodule\Console\Commands\ListenerMakeCommand;
 use Hexters\Laramodule\Console\Commands\MailMakeCommand;
 use Hexters\Laramodule\Console\Commands\ModelMakeCommand;
 use Hexters\Laramodule\Console\Commands\NotificationMakeCommand;
+use Hexters\Laramodule\Console\Commands\NpmInstallCommand;
 use Hexters\Laramodule\Console\Commands\ObserverMakeCommand;
 use Hexters\Laramodule\Console\Commands\PolicyMakeCommand;
 use Hexters\Laramodule\Console\Commands\ProviderMakeCommand;
@@ -97,6 +98,7 @@ class ArtisanServiceProvider extends ServiceProvider
                 SeedCommand::class,
                 InitInertiaVueCommand::class,
                 InitInertiaReactCommand::class,
+                NpmInstallCommand::class,
             ]);
         }
     }
