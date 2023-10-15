@@ -207,7 +207,7 @@ class ModuleMakeCommand extends Command
             $command = $this->option('command');
             if (in_array($command, [null, ''])) {
 
-                $select = select(label: 'Is there a command that you want to run after the {$name} module is created?', options: ['yes', 'no'], default: 'no');
+                $select = select(label: "Is there a command that you want to run after the {$name} module is created?", options: ['yes', 'no'], default: 'no');
                 if ($select == 'yes') {
                     $command = text(label: "type the command you want to execute!", placeholder: 'E.g : config:clear', hint: "* Option --module={$name} is included in it.");
                 }
