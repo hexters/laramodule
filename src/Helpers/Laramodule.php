@@ -1,5 +1,7 @@
 <?php
 
+use Hexters\Laramodule\Events\ModuleDisabled;
+use Hexters\Laramodule\Events\ModuleEnabled;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
@@ -48,9 +50,13 @@ if (!function_exists('module_enable')) {
             try {
                 $jsonfile = $module . '/app.json';
                 $appjson = json_decode(file_get_contents($jsonfile), true);
-                $editjson = $appjson;
-                $editjson['status'] = 'enabled';
-                file_put_contents($jsonfile, json_encode($editjson, JSON_PRETTY_PRINT));
+                if (in_array($appjson['status'], ['disabled'])) {
+                    $editjson = $appjson;
+                    $editjson['status'] = 'enabled';
+                    file_put_contents($jsonfile, json_encode($editjson, JSON_PRETTY_PRINT));
+
+                    event(new ModuleEnabled($name));
+                }
                 return true;
             } catch (Exception $e) {
                 Log::error(['Error enabled module', $e->getMessage()]);
@@ -69,9 +75,14 @@ if (!function_exists('module_disable')) {
             try {
                 $jsonfile = $module . '/app.json';
                 $appjson = json_decode(file_get_contents($jsonfile), true);
-                $editjson = $appjson;
-                $editjson['status'] = 'disabled';
-                file_put_contents($jsonfile, json_encode($editjson, JSON_PRETTY_PRINT));
+
+                if (in_array($appjson['status'], ['enabled'])) {
+                    $editjson = $appjson;
+                    $editjson['status'] = 'disabled';
+                    file_put_contents($jsonfile, json_encode($editjson, JSON_PRETTY_PRINT));
+
+                    event(new ModuleDisabled($name));
+                }
                 return true;
             } catch (Exception $e) {
                 Log::error(['Error disabled module', $e->getMessage()]);
