@@ -96,7 +96,7 @@ class ModuleMakeCommand extends Command
                 default => null
             });
         }
-        $this->name = $name = Str::of($name)->slug()->studly();
+        $this->name = $name = Str::of($name)->slug()->studly()->value();
         $loweName = strtolower($name);
 
         $this->desc = text(label: "Write a description for the {$name} module? (optional)");
