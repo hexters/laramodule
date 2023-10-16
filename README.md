@@ -138,13 +138,13 @@ Laramodule is already supported for integration with **Livewire**
 Laramodule is already supported for integration with InertiaJs. Follow the official Inertia.js website to see the installation steps. [inertiajs.com](https://inertiajs.com)
 
 ## Inertia with VueJs
-Follow the command below to create a module with inertia support.
 
+Follow the command below to create a module and select `Inertia With VueJs` in preset options.
 ```bash
-php artisan module:make Blog --command=module:inertia-vue
+php artisan module:make Blog
 ```
 
-You can also do this with an existing module, but remember that. The `route.php` file will be replaced by a new file.
+You can run the command initialize inertia with vue for an existing module as below, but remember that. The `route.php` file will be replaced by a new file.
 
 ```bash
 php artisan module:inertia-vue --module=Blog
@@ -218,13 +218,12 @@ Open your `app.blade.php` and change vite load assets.
 ```
 
 ## Inertia with React
-Follow the command below to create a module with inertia support.
 
+Follow the command below to create a module and select `Inertia With ReactJs` in preset options.
 ```bash
-php artisan module:make Blog --command=module:inertia-react
+php artisan module:make Blog
 ```
-
-You can also do this with an existing module, but remember that. The `route.php` file will be replaced by a new file.
+You can run the command initialize inertia with react for an existing module as below, but remember that. The `route.php` file will be replaced by a new file.
 
 ```bash
 php artisan module:inertia-react --module=Blog
