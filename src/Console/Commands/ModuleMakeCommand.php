@@ -89,15 +89,14 @@ class ModuleMakeCommand extends Command
             'Providers' => []
         ];
 
-        $name = Str::studly(Str::slug($this->argument('name')));
-
+        $name = $this->argument('name');
         if (in_array($name, [null, ""])) {
             $name = text(label: 'What is the name?', required: true, validate: fn ($value) => match (true) {
                 is_dir(module_path($value)) => 'Module is available!',
                 default => null
             });
         }
-        $this->name = $name;
+        $this->name = $name = Str::of($name)->slug()->studly();
         $loweName = strtolower($name);
 
         $this->desc = text(label: "Write a description for the {$name} module? (optional)");
