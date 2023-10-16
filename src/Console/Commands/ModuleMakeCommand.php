@@ -285,17 +285,15 @@ class ModuleMakeCommand extends Command
 
     protected function appjson()
     {
-        $name = Str::studly($this->name);
-
         return [
-            'name' => strtolower($name),
-            'namespace' => $this->namespace($name),
+            'name' => strtolower($this->name),
+            'namespace' => $this->namespace($this->name),
             'author' => $this->author,
             'description' => $this->desc,
             'providers' => (array) [
-                $this->namespace($name) . 'Providers\\' . $name . 'ServiceProvider',
-                $this->namespace($name) . 'Providers\\' . 'EventServiceProvider',
-                $this->namespace($name) . 'Providers\\' . 'RouteServiceProvider',
+                $this->namespace($this->name) . 'Providers\\' . $this->name . 'ServiceProvider',
+                $this->namespace($this->name) . 'Providers\\' . 'EventServiceProvider',
+                $this->namespace($this->name) . 'Providers\\' . 'RouteServiceProvider',
             ],
             'status' => 'enabled'
         ];
