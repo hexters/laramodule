@@ -127,11 +127,6 @@ php artisan module:publish Blog
 
 Happy coding ☕
 
-# Livewire Support
-Laramodule is already supported for integration with **Livewire**
-
-### [Documentation](https://github.com/hexters/wirehmvc)
-
 
 # Inertia Support
 
