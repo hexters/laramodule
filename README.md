@@ -127,6 +127,11 @@ php artisan module:publish Blog
 
 Happy coding ☕
 
+# Livewire Support
+
+We have a livewire version but it is still in the experimental stage, please see the full documentation below.
+
+### [Livewire HMVC Documentation](https://github.com/hexters/wirehmvc)
 
 # Inertia Support
 
